@@ -1,12 +1,17 @@
+
 import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import { GraduationCap, School, ExternalLink, BookOpen } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 interface EducationProps {
   language: 'en' | 'bn';
+  theme?: 'light' | 'dark';
 }
 
-const Education = ({ language }: EducationProps) => {
+const Education = ({ language, theme = 'light' }: EducationProps) => {
+  const isDark = theme === 'dark';
+  
   const educationHistory = [
     {
       id: 'hsc',
@@ -32,7 +37,7 @@ const Education = ({ language }: EducationProps) => {
       },
       link: 'https://g.co/kgs/WZW688y',
       icon: (
-        <GraduationCap size={20} className="text-blue-500" aria-hidden="true" />
+        <GraduationCap size={20} className={cn("text-blue-500", isDark && "text-blue-400")} aria-hidden="true" />
       ),
     },
     {
@@ -58,7 +63,7 @@ const Education = ({ language }: EducationProps) => {
         bn: ['গ্রুপ: বিজ্ঞান', 'মেজর: উচ্চতর গণিত'],
       },
       link: 'https://g.co/kgs/W57Ts2o',
-      icon: <School size={20} className="text-green-500" aria-hidden="true" />,
+      icon: <School size={20} className={cn("text-green-500", isDark && "text-green-400")} aria-hidden="true" />,
     },
   ];
 
@@ -68,14 +73,22 @@ const Education = ({ language }: EducationProps) => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
-        className="bg-white p-6 rounded-lg shadow-md"
+        className={cn(
+          "p-6 rounded-lg shadow-md transition-colors", 
+          isDark 
+            ? "bg-gray-800 text-white" 
+            : "bg-white text-gray-900"
+        )}
         aria-labelledby="education-heading"
       >
         <h2
           id="education-heading"
-          className="text-2xl font-bold mb-8 flex items-center gap-2 text-green-700"
+          className={cn(
+            "text-2xl font-bold mb-8 flex items-center gap-2", 
+            isDark ? "text-green-400" : "text-green-700"
+          )}
         >
-          <BookOpen className="text-emerald-500" aria-hidden="true" />
+          <BookOpen className={isDark ? "text-emerald-400" : "text-emerald-500"} aria-hidden="true" />
           {language === 'en' ? 'Education' : 'শিক্ষা'}
         </h2>
 
@@ -87,32 +100,50 @@ const Education = ({ language }: EducationProps) => {
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ type: 'spring', stiffness: 100 }}
-              className="border-l-4 border-green-600 pl-4 py-4 hover:bg-green-50 rounded-r-lg transition-colors duration-200 group"
+              className={cn(
+                "border-l-4 pl-4 py-4 rounded-r-lg transition-colors duration-200 group",
+                isDark 
+                  ? "border-green-500 hover:bg-gray-700" 
+                  : "border-green-600 hover:bg-green-50"
+              )}
             >
               <div className="flex items-start gap-4">
-                <div className="p-2 bg-green-100 rounded-full group-hover:bg-green-200 transition-colors flex-shrink-0">
+                <div className={cn(
+                  "p-2 rounded-full flex-shrink-0 transition-colors",
+                  isDark 
+                    ? "bg-gray-700 group-hover:bg-gray-600" 
+                    : "bg-green-100 group-hover:bg-green-200"
+                )}>
                   {education.icon}
                 </div>
                 <div className="flex-1">
                   <h3 className="font-bold text-lg">
                     {education.title[language]}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className={isDark ? "text-gray-300" : "text-gray-600"}>
                     {education.institution[language]}{' '}
                     <a
                       href={education.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1"
+                      className={cn(
+                        "inline-flex items-center gap-1",
+                        isDark 
+                          ? "text-blue-400 hover:text-blue-300" 
+                          : "text-blue-600 hover:text-blue-800"
+                      )}
                     >
                       <ExternalLink size={16} />
                     </a>
                   </p>
-                  <p className="text-gray-600">
+                  <p className={isDark ? "text-gray-300" : "text-gray-600"}>
                     {education.duration[language]}
                   </p>
                   <p className="font-medium">{education.gpa[language]}</p>
-                  <ul className="mt-2 list-disc list-inside text-gray-700">
+                  <ul className={cn(
+                    "mt-2 list-disc list-inside",
+                    isDark ? "text-gray-300" : "text-gray-700"
+                  )}>
                     {education.details[language].map((detail, index) => (
                       <li key={index}>{detail}</li>
                     ))}

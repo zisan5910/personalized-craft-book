@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,6 +15,7 @@ interface NavigationProps {
   scrollToSection: (section: string) => void;
   language: 'en' | 'bn';
   setLanguage: (lang: 'en' | 'bn') => void;
+  theme?: 'light' | 'dark';
 }
 
 const Navigation = ({
@@ -22,13 +24,16 @@ const Navigation = ({
   scrollToSection,
   language,
   setLanguage,
+  theme = 'light',
 }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { ref, inView } = useInView({
+  const { ref } = useInView({
     threshold: 0,
     initialInView: true,
   });
+  
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,12 +53,17 @@ const Navigation = ({
       animate={{
         y: 0,
         backgroundColor: isScrolled
-          ? 'rgba(255, 255, 255, 0.9)'
-          : 'rgba(255, 255, 255, 1)',
+          ? isDark 
+            ? 'rgba(17, 24, 39, 0.9)' 
+            : 'rgba(255, 255, 255, 0.9)'
+          : isDark 
+            ? 'rgba(17, 24, 39, 1)' 
+            : 'rgba(255, 255, 255, 1)',
       }}
       className={cn(
         'fixed w-full z-50 transition-all duration-300',
-        isScrolled ? 'backdrop-blur-md shadow-lg' : 'shadow-md'
+        isScrolled ? 'backdrop-blur-md shadow-lg' : 'shadow-md',
+        isDark ? 'text-white' : 'text-gray-900'
       )}
     >
       <div className="container mx-auto px-4">
@@ -63,7 +73,12 @@ const Navigation = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleMenu}
-            className="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className={cn(
+              "md:hidden p-2 rounded-md focus:outline-none focus:ring-2",
+              isDark 
+                ? "text-gray-300 hover:bg-gray-700 focus:ring-green-400" 
+                : "text-gray-600 hover:bg-gray-100 focus:ring-green-500"
+            )}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <AnimatePresence mode="wait">
@@ -90,8 +105,12 @@ const Navigation = ({
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300',
                   activeSection === (item.target || item.id)
-                    ? 'bg-green-100 text-green-700 shadow-sm'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? isDark 
+                      ? 'bg-green-900/70 text-green-300 shadow-sm' 
+                      : 'bg-green-100 text-green-700 shadow-sm'
+                    : isDark 
+                      ? 'text-gray-300 hover:bg-gray-700' 
+                      : 'text-gray-600 hover:bg-gray-100'
                 )}
               >
                 <motion.div
@@ -117,9 +136,11 @@ const Navigation = ({
             onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
             className={cn(
               'px-4 py-2 rounded-md text-sm font-medium transition-all duration-300',
-              'bg-gradient-to-r from-green-600 to-green-700 text-white',
-              'hover:from-green-500 hover:to-green-600',
-              'focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
+              isDark
+                ? 'bg-gradient-to-r from-green-700 to-green-800 text-white hover:from-green-600 hover:to-green-700'
+                : 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-500 hover:to-green-600',
+              'focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2',
+              isDark && 'focus:ring-offset-gray-800'
             )}
           >
             {language === 'en' ? 'বাংলা' : 'English'}
@@ -134,7 +155,10 @@ const Navigation = ({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden overflow-hidden bg-white"
+              className={cn(
+                "md:hidden overflow-hidden",
+                isDark ? "bg-gray-800" : "bg-white"
+              )}
             >
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -156,8 +180,12 @@ const Navigation = ({
                     className={cn(
                       'w-full flex items-center gap-2 px-4 py-3 rounded-md transition-all duration-300',
                       activeSection === (item.target || item.id)
-                        ? 'bg-green-100 text-green-700 shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-100'
+                        ? isDark 
+                          ? 'bg-green-900/70 text-green-300 shadow-sm' 
+                          : 'bg-green-100 text-green-700 shadow-sm'
+                        : isDark 
+                          ? 'text-gray-300 hover:bg-gray-700' 
+                          : 'text-gray-600 hover:bg-gray-100'
                     )}
                   >
                     <motion.div

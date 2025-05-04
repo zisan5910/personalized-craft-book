@@ -19,6 +19,8 @@ import {
   HeartHandshake,
   Mail,
   Share2,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { Element, scroller } from 'react-scroll';
 import { motion } from 'framer-motion';
@@ -39,13 +41,26 @@ import Footer from './components/Footer';
 
 function App() {
   const [language, setLanguage] = useState<'en' | 'bn'>('en');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [activeSection, setActiveSection] = useState<string>('profile');
   const [age, setAge] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isGhostOpen, setIsGhostOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  const isDark = theme === 'dark';
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
 
   useEffect(() => {
+    // Check if user prefers dark mode
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      setTheme('dark');
+    }
+
     const calculateAge = () => {
       const birthDate = new Date('2007-12-31');
       const today = new Date();
@@ -106,6 +121,11 @@ function App() {
     };
   }, []);
 
+  // Set body background color based on theme
+  useEffect(() => {
+    document.body.className = isDark ? 'bg-gray-900' : 'bg-slate-50';
+  }, [theme, isDark]);
+
   const scrollToSection = (section: string) => {
     scroller.scrollTo(section, {
       duration: 800,
@@ -115,70 +135,71 @@ function App() {
     setActiveSection(section);
   };
 
-  const content = {
-    en: {
-      name: 'Md Ridoan Mahmud Zisan',
-      role: 'Student | Volunteer | Web Application Developer',
-      statement:
-        'As a dedicated student and volunteer, I aim to use my academic knowledge and interpersonal skills to contribute to educational and social initiatives. I seek opportunities for growth, collaboration, and positive impact while upholding integrity, empathy, and excellence.',
-      downloadCV: 'Download Resume',
+  const contentEn = {
+    name: 'Md Ridoan Mahmud Zisan',
+    role: 'Student | Volunteer | Web Application Developer',
+    statement:
+      'As a dedicated student and volunteer, I aim to use my academic knowledge and interpersonal skills to contribute to educational and social initiatives. I seek opportunities for growth, collaboration, and positive impact while upholding integrity, empathy, and excellence.',
+    downloadCV: 'Download Resume',
+    education: 'Education',
+    experience: 'Experience',
+    skills: 'Skills',
+    certificates: 'Certificates',
+    contact: 'Contact',
+    achievements: 'Achievements',
+    certifications: 'Certifications',
+    volunteerWork: 'Volunteer Work',
+    languages: 'Language Skills',
+    computerSkills: 'Computer Skills',
+    adminSkills: 'Administrative Skills',
+    family: 'Family & Personal Info',
+    age: 'Age',
+    years: 'years',
+    sections: {
+      profile: 'Profile',
       education: 'Education',
       experience: 'Experience',
-      skills: 'Skills',
+      skills: 'Skills & Competencies',
       certificates: 'Certificates',
       contact: 'Contact',
-      achievements: 'Achievements',
-      certifications: 'Certifications',
-      volunteerWork: 'Volunteer Work',
-      languages: 'Language Skills',
-      computerSkills: 'Computer Skills',
-      adminSkills: 'Administrative Skills',
-      family: 'Family & Personal Info',
-      age: 'Age',
-      years: 'years',
-      sections: {
-        profile: 'Profile',
-        education: 'Education',
-        experience: 'Experience',
-        skills: 'Skills & Competencies',
-        certificates: 'Certificates',
-        contact: 'Contact',
-        family: 'Family & Personal',
-        share: 'Share',
-      },
-    },
-    bn: {
-      name: 'মো: রিদওয়ান মাহমুদ জিসান',
-      role: 'শিক্ষার্থী | স্বেচ্ছাসেবী | ওয়েব এপ্লিকেশন ডেভলপার',
-      statement:
-        'একজন নিবেদিতপ্রাণ ছাত্র এবং স্বেচ্ছাসেবক হিসেবে, আমি আমার একাডেমিক জ্ঞান এবং আন্তঃব্যক্তিক দক্ষতা ব্যবহার করে শিক্ষাগত এবং সামাজিক উদ্যোগে অবদান রাখার লক্ষ্য রাখি। আমি সততা, সহানুভূতি এবং শ্রেষ্ঠত্ব বজায় রেখে বৃদ্ধি, সহযোগিতা এবং ইতিবাচক প্রভাবের সুযোগ খুঁজি।',
-      downloadCV: 'জীবনবৃত্তান্ত ডাউনলোড করুন',
-      education: 'শিক্ষা',
-      experience: 'অভিজ্ঞতা',
-      skills: 'দক্ষতা',
-      certificates: 'সার্টিফিকেট',
-      contact: 'যোগাযোগ',
-      achievements: 'অর্জন',
-      certifications: 'সার্টিফিকেট',
-      volunteerWork: 'স্বেচ্ছাসেবী কাজ',
-      languages: 'ভাষার দক্ষতা',
-      computerSkills: 'কম্পিউটার দক্ষতা',
-      adminSkills: 'প্রশাসনিক দক্ষতা',
-      family: 'পারিবারিক ও ব্যক্তিগত তথ্য',
-      age: 'বয়স',
-      years: 'বছর',
-      sections: {
-        profile: 'প্রোফাইল',
-        education: 'শিক্ষা',
-        experience: 'অভিজ্ঞতা',
-        skills: 'দক্ষতা ও যোগ্যতা',
-        certificates: 'সার্টিফিকেট',
-        contact: 'যোগাযোগ',
-        family: 'পারিবারিক তথ্য',
-        share: 'শেয়ার',
-      },
+      family: 'Family & Personal',
+      share: 'Share',
     },
   };
+
+  const contentBn = {
+    name: 'মো: রিদওয়ান মাহমুদ জিসান',
+    role: 'শিক্ষার্থী | স্বেচ্ছাসেবী | ওয়েব এপ্লিকেশন ডেভলপার',
+    statement:
+      'একজন নিবেদিতপ্রাণ ছাত্র এবং স্বেচ্ছাসেবক হিসেবে, আমি আমার একাডেমিক জ্ঞান এবং আন্তঃব্যক্তিক দক্ষতা ব্যবহার করে শিক্ষাগত এবং সামাজিক উদ্যোগে অবদান রাখার লক্ষ্য রাখি। আমি সততা, সহানুভূতি এবং শ্রেষ্ঠত্ব বজায় রেখে বৃদ্ধি, সহযোগিতা এবং ইতিবাচক প্রভাবের সুযোগ খুঁজি।',
+    downloadCV: 'জীবনবৃত্তান্ত ডাউনলোড করুন',
+    education: 'শিক্ষা',
+    experience: 'অভিজ্ঞতা',
+    skills: 'দক্ষতা',
+    certificates: 'সার্টিফিকেট',
+    contact: 'যোগাযোগ',
+    achievements: 'অর্জন',
+    certifications: 'সার্টিফিকেট',
+    volunteerWork: 'স্বেচ্ছাসেবী কাজ',
+    languages: 'ভাষার দক্ষতা',
+    computerSkills: 'কম্পিউটার দক্ষতা',
+    adminSkills: 'প্রশাসনিক দক্ষতা',
+    family: 'পারিবারিক ও ব্যক্তিগত তথ্য',
+    age: 'বয়স',
+    years: 'বছর',
+    sections: {
+      profile: 'প্রোফাইল',
+      education: 'শিক্ষা',
+      experience: 'অভিজ্ঞতা',
+      skills: 'দক্ষতা ও যোগ্যতা',
+      certificates: 'সার্টিফিকেট',
+      contact: 'যোগাযোগ',
+      family: 'পারিবারিক তথ্য',
+      share: 'শেয়ার',
+    },
+  };
+
+  const content = language === 'en' ? contentEn : contentBn;
 
   const navigationItems = [
     {
@@ -186,7 +207,10 @@ function App() {
       icon: (
         <UserCircle
           size={22}
-          className="text-indigo-500 hover:scale-110 transition-all hover:drop-shadow-lg"
+          className={cn(
+            "text-indigo-500 hover:scale-110 transition-all hover:drop-shadow-lg",
+            isDark && "text-indigo-400"
+          )}
         />
       ),
       title: 'Profile',
@@ -274,192 +298,214 @@ function App() {
     },
   ];
 
-const certificates = [
-  // High-Demand Tech Skills
-  {
-    title: {
-      en: "Introduction to Artificial Intelligence",
-      bn: "কৃত্রিম বুদ্ধিমত্তার ভূমিকা"
+  const certificates = [
+    // High-Demand Tech Skills
+    {
+      title: {
+        en: "Introduction to Artificial Intelligence",
+        bn: "কৃত্রিম বুদ্ধিমত্তার ভূমিকা"
+      },
+      image: "https://i.postimg.cc/VsZdZ25P/introduction-to-artificial-intelligence.png"
     },
-    image: "https://i.postimg.cc/VsZdZ25P/introduction-to-artificial-intelligence.png"
-  },
-  {
-    title: {
-      en: "Introduction to Cyber Security",
-      bn: "সাইবার সিকিউরিটি পরিচিতি"
+    {
+      title: {
+        en: "Introduction to Cyber Security",
+        bn: "সাইবার সিকিউরিটি পরিচিতি"
+      },
+      image: "https://i.postimg.cc/RZKhFFdv/introduction-to-cyber-security.png"
     },
-    image: "https://i.postimg.cc/RZKhFFdv/introduction-to-cyber-security.png"
-  },
-  {
-    title: {
-      en: "Introduction to Python",
-      bn: "পাইথনের পরিচিতি"
+    {
+      title: {
+        en: "Introduction to Python",
+        bn: "পাইথনের পরিচিতি"
+      },
+      image: "https://i.postimg.cc/L6qhcvZY/Introduction-to-Python.jpg"
     },
-    image: "https://i.postimg.cc/L6qhcvZY/Introduction-to-Python.jpg"
-  },
-  {
-    title: {
-      en: "Machine Learning",
-      bn: "মেশিন লার্নিং"
+    {
+      title: {
+        en: "Machine Learning",
+        bn: "মেশিন লার্নিং"
+      },
+      image: "https://i.postimg.cc/mrSrY5Kq/machine-learning.png"
     },
-    image: "https://i.postimg.cc/mrSrY5Kq/machine-learning.png"
-  },
-  {
-    title: {
-      en: "Complete Web Development",
-      bn: "সম্পূর্ণ ওয়েব ডেভেলপমেন্ট"
+    {
+      title: {
+        en: "Complete Web Development",
+        bn: "সম্পূর্ণ ওয়েব ডেভেলপমেন্ট"
+      },
+      image: "https://i.postimg.cc/gkr6Ym10/Complete-Web-Development.png"
     },
-    image: "https://i.postimg.cc/gkr6Ym10/Complete-Web-Development.png"
-  },
-  {
-    title: {
-      en: "Digital Marketing",
-      bn: "ডিজিটাল মার্কেটিং"
+    {
+      title: {
+        en: "Digital Marketing",
+        bn: "ডিজিটাল মার্কেটিং"
+      },
+      image: "https://i.postimg.cc/XvKr2JBs/digital-marketing.png"
     },
-    image: "https://i.postimg.cc/XvKr2JBs/digital-marketing.png"
-  },
 
-  // Sustainability & Global Issues
-  {
-    title: {
-      en: "Introduction to Sustainable Development in Practice",
-      bn: "অনুশীলনে টেকসই উন্নয়নের ভূমিকা"
+    // Sustainability & Global Issues
+    {
+      title: {
+        en: "Introduction to Sustainable Development in Practice",
+        bn: "অনুশীলনে টেকসই উন্নয়নের ভূমিকা"
+      },
+      image: "https://i.postimg.cc/tCL7pPhr/Introduction-to-Sustainable-Development-in-Practice.jpg"
     },
-    image: "https://i.postimg.cc/tCL7pPhr/Introduction-to-Sustainable-Development-in-Practice.jpg"
-  },
-  {
-    title: {
-      en: "Gender equality and human rights in climate action and renewable energy",
-      bn: "জলবায়ু কর্ম ও নবায়নযোগ্য শক্তিতে লিঙ্গ সমতা ও মানবাধিকার"
+    {
+      title: {
+        en: "Gender equality and human rights in climate action and renewable energy",
+        bn: "জলবায়ু কর্ম ও নবায়নযোগ্য শক্তিতে লিঙ্গ সমতা ও মানবাধিকার"
+      },
+      image: "https://i.postimg.cc/V6Dd8VRM/Gender-equality-and-human-rights-in-climate-action-and-renewable-energy.jpg"
     },
-    image: "https://i.postimg.cc/V6Dd8VRM/Gender-equality-and-human-rights-in-climate-action-and-renewable-energy.jpg"
-  },
-  {
-    title: {
-      en: "Net Zero 101- What, Why and How",
-      bn: "নেট জিরো ১০১: কি, কেন এবং কিভাবে"
+    {
+      title: {
+        en: "Net Zero 101- What, Why and How",
+        bn: "নেট জিরো ১০১: কি, কেন এবং কিভাবে"
+      },
+      image: "https://i.postimg.cc/ZR7Kgybx/Net-Zero-101-What-Why-and-How.jpg"
     },
-    image: "https://i.postimg.cc/ZR7Kgybx/Net-Zero-101-What-Why-and-How.jpg"
-  },
-  {
-    title: {
-      en: "The UN Climate Change process",
-      bn: "জাতিসংঘের জলবায়ু পরিবর্তন প্রক্রিয়া"
+    {
+      title: {
+        en: "The UN Climate Change process",
+        bn: "জাতিসংঘের জলবায়ু পরিবর্তন প্রক্রিয়া"
+      },
+      image: "https://i.postimg.cc/zv4DDZRL/The-UN-Climate-Change-process.jpg"
     },
-    image: "https://i.postimg.cc/zv4DDZRL/The-UN-Climate-Change-process.jpg"
-  },
 
-  // Academic & Professional Development
-  {
-    title: {
-      en: "Bangladesh Mathematical Olympiad",
-      bn: "বাংলাদেশ গণিত অলিম্পিয়াড"
+    // Academic & Professional Development
+    {
+      title: {
+        en: "Bangladesh Mathematical Olympiad",
+        bn: "বাংলাদেশ গণিত অলিম্পিয়াড"
+      },
+      image: "https://i.postimg.cc/pLFhFkWb/Bangladesh-Mathematical-Olympiad.png"
     },
-    image: "https://i.postimg.cc/pLFhFkWb/Bangladesh-Mathematical-Olympiad.png"
-  },
-  {
-    title: {
-      en: "Business Case Solving Certificate",
-      bn: "ব্যবসায়িক কেস সমাধান সার্টিফিকেট"
+    {
+      title: {
+        en: "Business Case Solving Certificate",
+        bn: "ব্যবসায়িক কেস সমাধান সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/4y27zSHZ/Business-Case-Solving-Certificate.png"
     },
-    image: "https://i.postimg.cc/4y27zSHZ/Business-Case-Solving-Certificate.png"
-  },
 
-  // Professional Skills
-  {
-    title: {
-      en: "Presentation and Public Speaking",
-      bn: "প্রেজেন্টেশন ও পাবলিক স্পিকিং"
+    // Professional Skills
+    {
+      title: {
+        en: "Presentation and Public Speaking",
+        bn: "প্রেজেন্টেশন ও পাবলিক স্পিকিং"
+      },
+      image: "https://i.postimg.cc/VvJLcL5Q/Presentation-and-Public-Speaking.png"
     },
-    image: "https://i.postimg.cc/VvJLcL5Q/Presentation-and-Public-Speaking.png"
-  },
-  {
-    title: {
-      en: "CV writing and interview",
-      bn: "সিভি লেখা ও ইন্টারভিউ প্রস্তুতি"
+    {
+      title: {
+        en: "CV writing and interview",
+        bn: "সিভি লেখা ও ইন্টারভিউ প্রস্তুতি"
+      },
+      image: "https://i.postimg.cc/cJGKMYCK/CV-writing-and-interview.jpg"
     },
-    image: "https://i.postimg.cc/cJGKMYCK/CV-writing-and-interview.jpg"
-  },
-  {
-    title: {
-      en: "Basic of management",
-      bn: "ম্যানেজমেন্টের মৌলিক বিষয়"
+    {
+      title: {
+        en: "Basic of management",
+        bn: "ম্যানেজমেন্টের মৌলিক বিষয়"
+      },
+      image: "https://i.postimg.cc/0jyKKsQc/Basic-of-management.jpg"
     },
-    image: "https://i.postimg.cc/0jyKKsQc/Basic-of-management.jpg"
-  },
-  {
-    title: {
-      en: "Money management",
-      bn: "টাকা ব্যবস্থাপনা"
+    {
+      title: {
+        en: "Money management",
+        bn: "টাকা ব্যবস্থাপনা"
+      },
+      image: "https://i.postimg.cc/fLTRBvNb/Money-management.jpg"
     },
-    image: "https://i.postimg.cc/fLTRBvNb/Money-management.jpg"
-  },
-  {
-    title: {
-      en: "Corporate etiquette",
-      bn: "ক cooperate শিষ্টাচার"
+    {
+      title: {
+        en: "Corporate etiquette",
+        bn: "ক cooperate শিষ্টাচার"
+      },
+      image: "https://i.postimg.cc/vHjxTCdt/Corporate-etiquette.jpg"
     },
-    image: "https://i.postimg.cc/vHjxTCdt/Corporate-etiquette.jpg"
-  },
-  {
-    title: {
-      en: "Communication hacks",
-      bn: "যোগাযোগ কৌশল"
+    {
+      title: {
+        en: "Communication hacks",
+        bn: "যোগাযোগ কৌশল"
+      },
+      image: "https://i.postimg.cc/dQ5yPLHX/Communication-hacks.jpg"
     },
-    image: "https://i.postimg.cc/dQ5yPLHX/Communication-hacks.jpg"
-  },
-  {
-    title: {
-      en: "Microsoft Office Starter Course Certificate",
-      bn: "মাইক্রোসফ্ট অফিস প্রাথমিক কোর্স সার্টিফিকেট"
+    {
+      title: {
+        en: "Microsoft Office Starter Course Certificate",
+        bn: "মাইক্রোসফ্ট অফিস প্রাথমিক কোর্স সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/bvPJ2hVk/Microsoft-Office-Starter-Course-Certificate.png"
     },
-    image: "https://i.postimg.cc/bvPJ2hVk/Microsoft-Office-Starter-Course-Certificate.png"
-  },
-  {
-    title: {
-      en: "Email Writing Certificate",
-      bn: "ইমেইল লেখার সার্টিফিকেট"
+    {
+      title: {
+        en: "Email Writing Certificate",
+        bn: "ইমেইল লেখার সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/fLwJ1NxD/Email-Writing-Certificate.png"
     },
-    image: "https://i.postimg.cc/fLwJ1NxD/Email-Writing-Certificate.png"
-  },
 
-  // Language Proficiency
-  {
-    title: {
-      en: "English for Everyday Certificate",
-      bn: "দৈনন্দিন ইংরেজি সার্টিফিকেট"
+    // Language Proficiency
+    {
+      title: {
+        en: "English for Everyday Certificate",
+        bn: "দৈনন্দিন ইংরেজি সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/nrrMcGRW/English-for-Everyday-Certificate.png"
     },
-    image: "https://i.postimg.cc/nrrMcGRW/English-for-Everyday-Certificate.png"
-  },
-  {
-    title: {
-      en: "Academic English grammar",
-      bn: "একাডেমিক ইংরেজি ব্যাকরণ"
+    {
+      title: {
+        en: "Academic English grammar",
+        bn: "একাডেমিক ইংরেজি ব্যাকরণ"
+      },
+      image: "https://i.postimg.cc/qRLC7RkN/Academic-English-grammar.jpg"
     },
-    image: "https://i.postimg.cc/qRLC7RkN/Academic-English-grammar.jpg"
-  },
-  {
-    title: {
-      en: "IELTS mock test solution",
-      bn: "আইইএলটিএস মক টেস্ট সমাধান"
-    },
-    image: "https://i.postimg.cc/L5W5qgG8/IELTS-mock-test-solution.jpg"
-  }
-];
+    {
+      title: {
+        en: "IELTS mock test solution",
+        bn: "আইইএলটিএস মক টেস্ট সমাধান"
+      },
+      image: "https://i.postimg.cc/L5W5qgG8/IELTS-mock-test-solution.jpg"
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className={cn(
+      "min-h-screen transition-colors duration-300",
+      isDark ? "bg-gray-900 text-white" : "bg-slate-50 text-gray-900"
+    )}>
       <Navigation
         navigationItems={navigationItems}
         activeSection={activeSection}
         scrollToSection={scrollToSection}
         language={language}
         setLanguage={setLanguage}
+        theme={theme}
       />
 
       <Element name="profile">
         <div className="fixed top-4 right-4 z-50">
-          <LiveChat />
+          <LiveChat theme={theme} />
+        </div>
+
+        {/* Theme toggle button */}
+        <div className="fixed top-20 right-4 z-50">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleTheme}
+            className={cn(
+              "p-3 rounded-full shadow-lg text-white",
+              isDark 
+                ? "bg-yellow-500 hover:bg-yellow-400" 
+                : "bg-indigo-600 hover:bg-indigo-700"
+            )}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </motion.button>
         </div>
 
         <motion.header
@@ -467,7 +513,9 @@ const certificates = [
           animate={{ opacity: 1 }}
           className={cn(
             'relative pt-24 pb-16 overflow-hidden',
-            'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
+            isDark
+              ? 'bg-gradient-to-br from-gray-900 via-purple-900/70 to-gray-900'
+              : 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
             'text-white'
           )}
         >
@@ -543,7 +591,7 @@ const certificates = [
                   transition={{ delay: 0.4 }}
                 >
                   <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
-                    {content[language].name}
+                    {content.name}
                   </h1>
                   <motion.p
                     initial={{ y: 10, opacity: 0 }}
@@ -551,7 +599,7 @@ const certificates = [
                     transition={{ delay: 0.6 }}
                     className="text-xl md:text-2xl mb-6 text-slate-200"
                   >
-                    {content[language].role.split(' | ').map((part, i) => (
+                    {content.role.split(' | ').map((part, i) => (
                       <motion.span
                         key={i}
                         className="inline-block mr-2"
@@ -560,7 +608,7 @@ const certificates = [
                         transition={{ delay: 0.7 + i * 0.1 }}
                       >
                         {part}
-                        {i < content[language].role.split(' | ').length - 1 &&
+                        {i < content.role.split(' | ').length - 1 &&
                           ' | '}
                       </motion.span>
                     ))}
@@ -571,7 +619,7 @@ const certificates = [
                     transition={{ delay: 0.8 }}
                     className="text-lg max-w-2xl mx-auto lg:mx-0 mb-8 text-slate-300 leading-relaxed"
                   >
-                    {content[language].statement}
+                    {content.statement}
                   </motion.p>
                 </motion.div>
 
@@ -593,7 +641,7 @@ const certificates = [
                     )}
                   >
                     <Download size={20} />
-                    {content[language].downloadCV}
+                    {content.downloadCV}
                   </motion.a>
                   <motion.button
                     whileHover={{ y: -2 }}
@@ -606,7 +654,7 @@ const certificates = [
                     )}
                   >
                     <ScrollText size={20} />
-                    {content[language].certifications}
+                    {content.certifications}
                   </motion.button>
                 </motion.div>
               </div>
@@ -615,18 +663,21 @@ const certificates = [
         </motion.header>
       </Element>
 
-      <main className="container mx-auto px-4 py-12">
+      <main className={cn(
+        "container mx-auto px-4 py-12",
+        isDark && "text-white"
+      )}>
         <div className="grid grid-cols-1 gap-8">
           <Element name="education">
-            <Education language={language} />
+            <Education language={language} theme={theme} />
           </Element>
 
           <Element name="courses">
-            <Courses language={language} />
+            <Courses language={language} theme={theme} />
           </Element>
 
           <Element name="experience">
-            <Experience language={language} />
+            <Experience language={language} theme={theme} />
           </Element>
 
           <Element name="certificates">
@@ -634,11 +685,17 @@ const certificates = [
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-6 rounded-lg shadow-md"
+              className={cn(
+                "p-6 rounded-lg shadow-md",
+                isDark ? "bg-gray-800" : "bg-white"
+              )}
             >
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-green-700">
-                <FileText />
-                {content[language].certifications}
+              <h2 className={cn(
+                "text-2xl font-bold mb-6 flex items-center gap-2",
+                isDark ? "text-green-400" : "text-green-700"
+              )}>
+                <FileText className={isDark ? "text-emerald-400" : "text-emerald-500"} />
+                {content.certifications}
               </h2>
               <CertificateSlider
                 certificates={certificates}
@@ -666,6 +723,7 @@ const certificates = [
           language={language}
           scrollToSection={scrollToSection}
           content={content}
+          theme={theme}
         />
       </Element>
 
@@ -694,14 +752,19 @@ const certificates = [
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             whileHover={{ scale: 1.05 }}
-            className="bg-green-500 text-white p-4 rounded-full shadow-md hover:bg-green-600 transition-colors"
+            className={cn(
+              "p-4 rounded-full shadow-md transition-colors",
+              isDark 
+                ? "bg-green-600 text-white hover:bg-green-500" 
+                : "bg-green-500 text-white hover:bg-green-600"
+            )}
             title="Send Email"
           >
             <Mail size={24} />
           </motion.a>
         )}
 
-        <LiveChat />
+        <LiveChat theme={theme} />
 
         <motion.button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -710,8 +773,8 @@ const certificates = [
           className={cn(
             'p-4 rounded-full shadow-md text-white transition-colors',
             isMenuOpen
-              ? 'bg-red-500 hover:bg-red-600'
-              : 'bg-blue-500 hover:bg-blue-600'
+              ? (isDark ? 'bg-red-600 hover:bg-red-700' : 'bg-red-500 hover:bg-red-600')
+              : (isDark ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600')
           )}
           title={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
@@ -723,6 +786,34 @@ const certificates = [
           </motion.div>
         </motion.button>
       </div>
+
+      {/* Scroll to top button */}
+      <motion.button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className={cn(
+          "fixed bottom-6 left-6 p-3 rounded-full shadow-lg z-50 transition-colors",
+          isDark 
+            ? "bg-indigo-600 hover:bg-indigo-700 text-white" 
+            : "bg-indigo-500 hover:bg-indigo-600 text-white"
+        )}
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+        >
+          <path d="m18 15-6-6-6 6"/>
+        </svg>
+      </motion.button>
     </div>
   );
 }
