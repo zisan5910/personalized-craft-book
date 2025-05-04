@@ -19,9 +19,10 @@ import {
   HeartHandshake,
   Mail,
   Share2,
+  Sparkle,
 } from 'lucide-react';
 import { Element, scroller } from 'react-scroll';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from './lib/utils';
 
@@ -36,6 +37,9 @@ import Information from './components/Information';
 import Education from './components/Education';
 import Experience from './components/Experience';
 import Footer from './components/Footer';
+import AnimatedBackground from './components/AnimatedBackground';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import { useTheme } from './contexts/ThemeContext';
 
 function App() {
   const [language, setLanguage] = useState<'en' | 'bn'>('en');
@@ -44,6 +48,8 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isGhostOpen, setIsGhostOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     const calculateAge = () => {
@@ -274,181 +280,183 @@ function App() {
     },
   ];
 
-const certificates = [
-  // High-Demand Tech Skills
-  {
-    title: {
-      en: "Introduction to Artificial Intelligence",
-      bn: "কৃত্রিম বুদ্ধিমত্তার ভূমিকা"
+  const certificates = [
+    // High-Demand Tech Skills
+    {
+      title: {
+        en: "Introduction to Artificial Intelligence",
+        bn: "কৃত্রিম বুদ্ধিমত্তার ভূমিকা"
+      },
+      image: "https://i.postimg.cc/VsZdZ25P/introduction-to-artificial-intelligence.png"
     },
-    image: "https://i.postimg.cc/VsZdZ25P/introduction-to-artificial-intelligence.png"
-  },
-  {
-    title: {
-      en: "Introduction to Cyber Security",
-      bn: "সাইবার সিকিউরিটি পরিচিতি"
+    {
+      title: {
+        en: "Introduction to Cyber Security",
+        bn: "সাইবার সিকিউরিটি পরিচিতি"
+      },
+      image: "https://i.postimg.cc/RZKhFFdv/introduction-to-cyber-security.png"
     },
-    image: "https://i.postimg.cc/RZKhFFdv/introduction-to-cyber-security.png"
-  },
-  {
-    title: {
-      en: "Introduction to Python",
-      bn: "পাইথনের পরিচিতি"
+    {
+      title: {
+        en: "Introduction to Python",
+        bn: "পাইথনের পরিচিতি"
+      },
+      image: "https://i.postimg.cc/L6qhcvZY/Introduction-to-Python.jpg"
     },
-    image: "https://i.postimg.cc/L6qhcvZY/Introduction-to-Python.jpg"
-  },
-  {
-    title: {
-      en: "Machine Learning",
-      bn: "মেশিন লার্নিং"
+    {
+      title: {
+        en: "Machine Learning",
+        bn: "মেশিন লার্নিং"
+      },
+      image: "https://i.postimg.cc/mrSrY5Kq/machine-learning.png"
     },
-    image: "https://i.postimg.cc/mrSrY5Kq/machine-learning.png"
-  },
-  {
-    title: {
-      en: "Complete Web Development",
-      bn: "সম্পূর্ণ ওয়েব ডেভেলপমেন্ট"
+    {
+      title: {
+        en: "Complete Web Development",
+        bn: "সম্পূর্ণ ওয়েব ডেভেলপমেন্ট"
+      },
+      image: "https://i.postimg.cc/gkr6Ym10/Complete-Web-Development.png"
     },
-    image: "https://i.postimg.cc/gkr6Ym10/Complete-Web-Development.png"
-  },
-  {
-    title: {
-      en: "Digital Marketing",
-      bn: "ডিজিটাল মার্কেটিং"
+    {
+      title: {
+        en: "Digital Marketing",
+        bn: "ডিজিটাল মার্কেটিং"
+      },
+      image: "https://i.postimg.cc/XvKr2JBs/digital-marketing.png"
     },
-    image: "https://i.postimg.cc/XvKr2JBs/digital-marketing.png"
-  },
 
-  // Sustainability & Global Issues
-  {
-    title: {
-      en: "Introduction to Sustainable Development in Practice",
-      bn: "অনুশীলনে টেকসই উন্নয়নের ভূমিকা"
+    // Sustainability & Global Issues
+    {
+      title: {
+        en: "Introduction to Sustainable Development in Practice",
+        bn: "অনুশীলনে টেকসই উন্নয়নের ভূমিকা"
+      },
+      image: "https://i.postimg.cc/tCL7pPhr/Introduction-to-Sustainable-Development-in-Practice.jpg"
     },
-    image: "https://i.postimg.cc/tCL7pPhr/Introduction-to-Sustainable-Development-in-Practice.jpg"
-  },
-  {
-    title: {
-      en: "Gender equality and human rights in climate action and renewable energy",
-      bn: "জলবায়ু কর্ম ও নবায়নযোগ্য শক্তিতে লিঙ্গ সমতা ও মানবাধিকার"
+    {
+      title: {
+        en: "Gender equality and human rights in climate action and renewable energy",
+        bn: "জলবায়ু কর্ম ও নবায়নযোগ্য শক্তিতে লিঙ্গ সমতা ও মানবাধিকার"
+      },
+      image: "https://i.postimg.cc/V6Dd8VRM/Gender-equality-and-human-rights-in-climate-action-and-renewable-energy.jpg"
     },
-    image: "https://i.postimg.cc/V6Dd8VRM/Gender-equality-and-human-rights-in-climate-action-and-renewable-energy.jpg"
-  },
-  {
-    title: {
-      en: "Net Zero 101- What, Why and How",
-      bn: "নেট জিরো ১০১: কি, কেন এবং কিভাবে"
+    {
+      title: {
+        en: "Net Zero 101- What, Why and How",
+        bn: "নেট জিরো ১০১: কি, কেন এবং কিভাবে"
+      },
+      image: "https://i.postimg.cc/ZR7Kgybx/Net-Zero-101-What-Why-and-How.jpg"
     },
-    image: "https://i.postimg.cc/ZR7Kgybx/Net-Zero-101-What-Why-and-How.jpg"
-  },
-  {
-    title: {
-      en: "The UN Climate Change process",
-      bn: "জাতিসংঘের জলবায়ু পরিবর্তন প্রক্রিয়া"
+    {
+      title: {
+        en: "The UN Climate Change process",
+        bn: "জাতিসংঘের জলবায়ু পরিবর্তন প্রক্রিয়া"
+      },
+      image: "https://i.postimg.cc/zv4DDZRL/The-UN-Climate-Change-process.jpg"
     },
-    image: "https://i.postimg.cc/zv4DDZRL/The-UN-Climate-Change-process.jpg"
-  },
 
-  // Academic & Professional Development
-  {
-    title: {
-      en: "Bangladesh Mathematical Olympiad",
-      bn: "বাংলাদেশ গণিত অলিম্পিয়াড"
+    // Academic & Professional Development
+    {
+      title: {
+        en: "Bangladesh Mathematical Olympiad",
+        bn: "বাংলাদেশ গণিত অলিম্পিয়াড"
+      },
+      image: "https://i.postimg.cc/pLFhFkWb/Bangladesh-Mathematical-Olympiad.png"
     },
-    image: "https://i.postimg.cc/pLFhFkWb/Bangladesh-Mathematical-Olympiad.png"
-  },
-  {
-    title: {
-      en: "Business Case Solving Certificate",
-      bn: "ব্যবসায়িক কেস সমাধান সার্টিফিকেট"
+    {
+      title: {
+        en: "Business Case Solving Certificate",
+        bn: "ব্যবসায়িক কেস সমাধান সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/4y27zSHZ/Business-Case-Solving-Certificate.png"
     },
-    image: "https://i.postimg.cc/4y27zSHZ/Business-Case-Solving-Certificate.png"
-  },
 
-  // Professional Skills
-  {
-    title: {
-      en: "Presentation and Public Speaking",
-      bn: "প্রেজেন্টেশন ও পাবলিক স্পিকিং"
+    // Professional Skills
+    {
+      title: {
+        en: "Presentation and Public Speaking",
+        bn: "প্রেজেন্টেশন ও পাবলিক স্পিকিং"
+      },
+      image: "https://i.postimg.cc/VvJLcL5Q/Presentation-and-Public-Speaking.png"
     },
-    image: "https://i.postimg.cc/VvJLcL5Q/Presentation-and-Public-Speaking.png"
-  },
-  {
-    title: {
-      en: "CV writing and interview",
-      bn: "সিভি লেখা ও ইন্টারভিউ প্রস্তুতি"
+    {
+      title: {
+        en: "CV writing and interview",
+        bn: "সিভি লেখা ও ইন্টারভিউ প্রস্তুতি"
+      },
+      image: "https://i.postimg.cc/cJGKMYCK/CV-writing-and-interview.jpg"
     },
-    image: "https://i.postimg.cc/cJGKMYCK/CV-writing-and-interview.jpg"
-  },
-  {
-    title: {
-      en: "Basic of management",
-      bn: "ম্যানেজমেন্টের মৌলিক বিষয়"
+    {
+      title: {
+        en: "Basic of management",
+        bn: "ম্যানেজমেন্টের মৌলিক বিষয়"
+      },
+      image: "https://i.postimg.cc/0jyKKsQc/Basic-of-management.jpg"
     },
-    image: "https://i.postimg.cc/0jyKKsQc/Basic-of-management.jpg"
-  },
-  {
-    title: {
-      en: "Money management",
-      bn: "টাকা ব্যবস্থাপনা"
+    {
+      title: {
+        en: "Money management",
+        bn: "টাকা ব্যবস্থাপনা"
+      },
+      image: "https://i.postimg.cc/fLTRBvNb/Money-management.jpg"
     },
-    image: "https://i.postimg.cc/fLTRBvNb/Money-management.jpg"
-  },
-  {
-    title: {
-      en: "Corporate etiquette",
-      bn: "ক cooperate শিষ্টাচার"
+    {
+      title: {
+        en: "Corporate etiquette",
+        bn: "ক cooperate শিষ্টাচার"
+      },
+      image: "https://i.postimg.cc/vHjxTCdt/Corporate-etiquette.jpg"
     },
-    image: "https://i.postimg.cc/vHjxTCdt/Corporate-etiquette.jpg"
-  },
-  {
-    title: {
-      en: "Communication hacks",
-      bn: "যোগাযোগ কৌশল"
+    {
+      title: {
+        en: "Communication hacks",
+        bn: "যোগাযোগ কৌশল"
+      },
+      image: "https://i.postimg.cc/dQ5yPLHX/Communication-hacks.jpg"
     },
-    image: "https://i.postimg.cc/dQ5yPLHX/Communication-hacks.jpg"
-  },
-  {
-    title: {
-      en: "Microsoft Office Starter Course Certificate",
-      bn: "মাইক্রোসফ্ট অফিস প্রাথমিক কোর্স সার্টিফিকেট"
+    {
+      title: {
+        en: "Microsoft Office Starter Course Certificate",
+        bn: "মাইক্রোসফ্ট অফিস প্রাথমিক কোর্স সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/bvPJ2hVk/Microsoft-Office-Starter-Course-Certificate.png"
     },
-    image: "https://i.postimg.cc/bvPJ2hVk/Microsoft-Office-Starter-Course-Certificate.png"
-  },
-  {
-    title: {
-      en: "Email Writing Certificate",
-      bn: "ইমেইল লেখার সার্টিফিকেট"
+    {
+      title: {
+        en: "Email Writing Certificate",
+        bn: "ইমেইল লেখার সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/fLwJ1NxD/Email-Writing-Certificate.png"
     },
-    image: "https://i.postimg.cc/fLwJ1NxD/Email-Writing-Certificate.png"
-  },
 
-  // Language Proficiency
-  {
-    title: {
-      en: "English for Everyday Certificate",
-      bn: "দৈনন্দিন ইংরেজি সার্টিফিকেট"
+    // Language Proficiency
+    {
+      title: {
+        en: "English for Everyday Certificate",
+        bn: "দৈনন্দিন ইংরেজি সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/nrrMcGRW/English-for-Everyday-Certificate.png"
     },
-    image: "https://i.postimg.cc/nrrMcGRW/English-for-Everyday-Certificate.png"
-  },
-  {
-    title: {
-      en: "Academic English grammar",
-      bn: "একাডেমিক ইংরেজি ব্যাকরণ"
+    {
+      title: {
+        en: "Academic English grammar",
+        bn: "একাডেমিক ইংরেজি ব্যাকরণ"
+      },
+      image: "https://i.postimg.cc/qRLC7RkN/Academic-English-grammar.jpg"
     },
-    image: "https://i.postimg.cc/qRLC7RkN/Academic-English-grammar.jpg"
-  },
-  {
-    title: {
-      en: "IELTS mock test solution",
-      bn: "আইইএলটিএস মক টেস্ট সমাধান"
-    },
-    image: "https://i.postimg.cc/L5W5qgG8/IELTS-mock-test-solution.jpg"
-  }
-];
+    {
+      title: {
+        en: "IELTS mock test solution",
+        bn: "আইইএলটিএস মক টেস্ট সমাধান"
+      },
+      image: "https://i.postimg.cc/L5W5qgG8/IELTS-mock-test-solution.jpg"
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className={`min-h-screen ${isDark ? 'dark' : ''}`}>
+      <AnimatedBackground />
+      
       <Navigation
         navigationItems={navigationItems}
         activeSection={activeSection}
@@ -462,13 +470,18 @@ const certificates = [
           <LiveChat />
         </div>
 
+        <div className="fixed top-4 left-4 z-50">
+          <ThemeSwitcher />
+        </div>
+
         <motion.header
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className={cn(
             'relative pt-24 pb-16 overflow-hidden',
-            'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
-            'text-white'
+            isDark 
+              ? 'text-white' 
+              : 'text-slate-800'
           )}
         >
           {/* Animated background elements */}
@@ -484,7 +497,11 @@ const certificates = [
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
-              className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-purple-500/30 to-transparent rounded-full filter blur-3xl"
+              className={`absolute -top-1/2 -left-1/2 w-full h-full rounded-full filter blur-3xl ${
+                isDark 
+                  ? 'bg-gradient-to-br from-purple-500/30 to-transparent' 
+                  : 'bg-gradient-to-br from-sky-400/20 to-transparent'
+              }`}
             />
             <motion.div
               animate={{
@@ -497,13 +514,17 @@ const certificates = [
                 ease: 'easeInOut',
                 delay: 1,
               }}
-              className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-blue-500/20 to-transparent rounded-full filter blur-3xl"
+              className={`absolute -bottom-1/2 -right-1/2 w-full h-full rounded-full filter blur-3xl ${
+                isDark 
+                  ? 'bg-gradient-to-br from-blue-500/20 to-transparent' 
+                  : 'bg-gradient-to-br from-indigo-300/20 to-transparent'
+              }`}
             />
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="flex flex-col lg:flex-row items-center gap-12">
-              {/* Profile Image */}
+              {/* Profile Image with animated effect */}
               <motion.div
                 initial={{ scale: 0, rotate: -15 }}
                 animate={{ scale: 1, rotate: 0 }}
@@ -516,23 +537,65 @@ const certificates = [
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/75 to-blue-500/75 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-white/10 group-hover:border-white/30 transition-all duration-500"></div>
-                <img
-                  src="https://github.com/RidoanDev.png"
-                  alt="Md Ridoan Mahmud Zisan"
-                  className="w-56 h-56 rounded-full border-4 border-white/20 shadow-2xl relative z-10 transition-all duration-300 group-hover:border-white/40"
+                <motion.div 
+                  animate={{ 
+                    rotate: [0, 360],
+                  }}
+                  transition={{ 
+                    duration: 20, 
+                    ease: "linear", 
+                    repeat: Infinity 
+                  }}
+                  className={`absolute -inset-1 rounded-full opacity-70 blur-md ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-purple-600 via-blue-500 to-purple-600' 
+                      : 'bg-gradient-to-r from-sky-400 via-indigo-400 to-sky-400'
+                  }`}
                 />
+                <div className="absolute inset-0 rounded-full border-4 border-white/10 group-hover:border-white/30 transition-all duration-500"></div>
+                
+                <div className="relative">
+                  <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 opacity-75 blur-sm animate-pulse-slow"></div>
+                  <img
+                    src="https://github.com/RidoanDev.png"
+                    alt="Md Ridoan Mahmud Zisan"
+                    className="w-56 h-56 rounded-full border-4 border-white/20 shadow-2xl relative z-10 transition-all duration-300 group-hover:border-white/40"
+                  />
+                </div>
+                
+                {/* Floating sparkles */}
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-white/10"
-                  initial={{ scale: 1, opacity: 0 }}
-                  animate={{ scale: 1.2, opacity: 0 }}
+                  animate={{
+                    y: [0, -15, 0],
+                    opacity: [0, 1, 0],
+                  }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
-                    ease: 'easeOut',
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                    delay: 0.5,
                   }}
-                />
+                  className="absolute -top-2 right-5 text-yellow-300"
+                >
+                  <Sparkle size={20} />
+                </motion.div>
+                
+                <motion.div
+                  animate={{
+                    y: [0, -12, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-10 -right-2 text-pink-400"
+                >
+                  <Sparkle size={14} />
+                </motion.div>
               </motion.div>
 
               {/* Profile Content */}
@@ -542,14 +605,20 @@ const certificates = [
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
+                  <h1 className={`text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-white to-slate-300' 
+                      : 'bg-gradient-to-r from-slate-800 to-slate-600'
+                  }`}>
                     {content[language].name}
                   </h1>
                   <motion.p
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="text-xl md:text-2xl mb-6 text-slate-200"
+                    className={`text-xl md:text-2xl mb-6 ${
+                      isDark ? 'text-slate-200' : 'text-slate-600'
+                    }`}
                   >
                     {content[language].role.split(' | ').map((part, i) => (
                       <motion.span
@@ -565,14 +634,26 @@ const certificates = [
                       </motion.span>
                     ))}
                   </motion.p>
-                  <motion.p
-                    initial={{ y: 10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
+                  
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="text-lg max-w-2xl mx-auto lg:mx-0 mb-8 text-slate-300 leading-relaxed"
+                    className="relative max-w-2xl mx-auto lg:mx-0 mb-8"
                   >
-                    {content[language].statement}
-                  </motion.p>
+                    <div className={`absolute inset-0 rounded-lg ${
+                      isDark 
+                        ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20' 
+                        : 'bg-gradient-to-r from-sky-100 to-indigo-100'
+                    } blur-md -z-10`}></div>
+                    <p className={`text-lg p-4 rounded-lg leading-relaxed ${
+                      isDark ? 'text-slate-300' : 'text-slate-700'
+                    } backdrop-blur-sm ${
+                      isDark ? 'bg-slate-900/40' : 'bg-white/40'
+                    } shadow-lg`}>
+                      {content[language].statement}
+                    </p>
+                  </motion.div>
                 </motion.div>
 
                 {/* Action Buttons */}
@@ -585,28 +666,37 @@ const certificates = [
                   <motion.a
                     href="/Resume.pdf"
                     download="Md Ridoan Mahmud Zisan.pdf"
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
                     whileTap={{ scale: 0.98 }}
                     className={cn(
                       'px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl',
-                      'bg-white text-slate-900 hover:bg-slate-100'
+                      isDark
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500'
+                        : 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white hover:from-sky-400 hover:to-indigo-400'
                     )}
                   >
                     <Download size={20} />
-                    {content[language].downloadCV}
+                    <span className="relative">
+                      {content[language].downloadCV}
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-white/40 transform scale-x-0 origin-left transition-transform group-hover:scale-x-100"></span>
+                    </span>
                   </motion.a>
                   <motion.button
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, boxShadow: "0 10px 25px -5px rgba(139, 92, 246, 0.4)" }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection('certificates')}
                     className={cn(
                       'px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl',
-                      'bg-transparent border-2 border-white/30 text-white',
-                      'hover:bg-white/10 hover:border-white/50'
+                      isDark
+                        ? 'bg-transparent border-2 border-purple-500/30 text-purple-300 hover:border-purple-500/50 hover:bg-purple-500/10'
+                        : 'bg-transparent border-2 border-indigo-500/30 text-indigo-600 hover:border-indigo-500/50 hover:bg-indigo-500/10'
                     )}
                   >
                     <ScrollText size={20} />
-                    {content[language].certifications}
+                    <span className="relative">
+                      {content[language].certifications}
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-current transform scale-x-0 origin-left transition-transform group-hover:scale-x-100"></span>
+                    </span>
                   </motion.button>
                 </motion.div>
               </div>
@@ -615,48 +705,164 @@ const certificates = [
         </motion.header>
       </Element>
 
-      <main className="container mx-auto px-4 py-12">
+      <main className={`container mx-auto px-4 py-12 ${
+        isDark ? 'text-slate-100' : 'text-slate-700'
+      }`}>
         <div className="grid grid-cols-1 gap-8">
+          {/* Education Section with Glass Morphism */}
           <Element name="education">
-            <Education language={language} />
-          </Element>
-
-          <Element name="courses">
-            <Courses language={language} />
-          </Element>
-
-          <Element name="experience">
-            <Experience language={language} />
-          </Element>
-
-          <Element name="certificates">
-            <motion.section
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-6 rounded-lg shadow-md"
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-purple-500/30 to-blue-500/30' 
+                  : 'bg-gradient-to-r from-sky-200 to-indigo-200'
+              }`}
             >
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-green-700">
-                <FileText />
-                {content[language].certifications}
-              </h2>
-              <CertificateSlider
-                certificates={certificates}
-                language={language}
-              />
-            </motion.section>
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Education language={language} />
+              </div>
+            </motion.div>
           </Element>
 
+          {/* Courses Section */}
+          <Element name="courses">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-blue-500/30 to-emerald-500/30' 
+                  : 'bg-gradient-to-r from-indigo-200 to-emerald-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Courses language={language} />
+              </div>
+            </motion.div>
+          </Element>
+
+          {/* Experience Section */}
+          <Element name="experience">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-amber-500/30 to-red-500/30' 
+                  : 'bg-gradient-to-r from-amber-200 to-red-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Experience language={language} />
+              </div>
+            </motion.div>
+          </Element>
+
+          {/* Certificates Section */}
+          <Element name="certificates">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-green-500/30 to-teal-500/30' 
+                  : 'bg-gradient-to-r from-green-200 to-teal-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <h2 className={`text-2xl font-bold mb-6 flex items-center gap-2 ${
+                  isDark ? 'text-green-400' : 'text-green-700'
+                }`}>
+                  <FileText />
+                  {content[language].certifications}
+                </h2>
+                <CertificateSlider
+                  certificates={certificates}
+                  language={language}
+                />
+              </div>
+            </motion.div>
+          </Element>
+
+          {/* Skills Section */}
           <Element name="skills">
-            <Skill language={language} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-purple-500/30 to-pink-500/30' 
+                  : 'bg-gradient-to-r from-purple-200 to-pink-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Skill language={language} />
+              </div>
+            </motion.div>
           </Element>
 
+          {/* Information Section */}
           <Element name="information">
-            <Information language={language} age={age} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30' 
+                  : 'bg-gradient-to-r from-cyan-200 to-blue-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Information language={language} age={age} />
+              </div>
+            </motion.div>
           </Element>
 
+          {/* Contact Section */}
           <Element name="contact">
-            <Contact language={language} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-indigo-500/30 to-purple-500/30' 
+                  : 'bg-gradient-to-r from-indigo-200 to-purple-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Contact language={language} />
+              </div>
+            </motion.div>
           </Element>
         </div>
       </main>
@@ -669,6 +875,7 @@ const certificates = [
         />
       </Element>
 
+      {/* Floating action buttons */}
       <div
         className="fixed bottom-6 right-6 flex flex-col items-end gap-2"
         ref={containerRef}
@@ -694,7 +901,11 @@ const certificates = [
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             whileHover={{ scale: 1.05 }}
-            className="bg-green-500 text-white p-4 rounded-full shadow-md hover:bg-green-600 transition-colors"
+            className={`text-white p-4 rounded-full shadow-md transition-colors ${
+              isDark 
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500' 
+                : 'bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-300 hover:to-emerald-400'
+            }`}
             title="Send Email"
           >
             <Mail size={24} />
@@ -710,8 +921,12 @@ const certificates = [
           className={cn(
             'p-4 rounded-full shadow-md text-white transition-colors',
             isMenuOpen
-              ? 'bg-red-500 hover:bg-red-600'
-              : 'bg-blue-500 hover:bg-blue-600'
+              ? isDark 
+                ? 'bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-500 hover:to-pink-500'
+                : 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-400 hover:to-pink-400'
+              : isDark
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500'
+                : 'bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400'
           )}
           title={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
