@@ -1,15 +1,7 @@
 import {
   Download,
-  Phone,
-  MapPin,
-  Linkedin,
   FileText,
-  Award,
   ScrollText,
-  Facebook,
-  Instagram,
-  Twitter,
-  MessageCircle,
   UserCircle,
   School,
   BookOpen,
@@ -42,7 +34,6 @@ function App() {
   const [activeSection, setActiveSection] = useState<string>('profile');
   const [age, setAge] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isGhostOpen, setIsGhostOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -274,181 +265,181 @@ function App() {
     },
   ];
 
-const certificates = [
-  // High-Demand Tech Skills
-  {
-    title: {
-      en: "Introduction to Artificial Intelligence",
-      bn: "কৃত্রিম বুদ্ধিমত্তার ভূমিকা"
+  const certificates = [
+    // High-Demand Tech Skills
+    {
+      title: {
+        en: "Introduction to Artificial Intelligence",
+        bn: "কৃত্রিম বুদ্ধিমত্তার ভূমিকা"
+      },
+      image: "https://i.postimg.cc/VsZdZ25P/introduction-to-artificial-intelligence.png"
     },
-    image: "https://i.postimg.cc/VsZdZ25P/introduction-to-artificial-intelligence.png"
-  },
-  {
-    title: {
-      en: "Introduction to Cyber Security",
-      bn: "সাইবার সিকিউরিটি পরিচিতি"
+    {
+      title: {
+        en: "Introduction to Cyber Security",
+        bn: "সাইবার সিকিউরিটি পরিচিতি"
+      },
+      image: "https://i.postimg.cc/RZKhFFdv/introduction-to-cyber-security.png"
     },
-    image: "https://i.postimg.cc/RZKhFFdv/introduction-to-cyber-security.png"
-  },
-  {
-    title: {
-      en: "Introduction to Python",
-      bn: "পাইথনের পরিচিতি"
+    {
+      title: {
+        en: "Introduction to Python",
+        bn: "পাইথনের পরিচিতি"
+      },
+      image: "https://i.postimg.cc/L6qhcvZY/Introduction-to-Python.jpg"
     },
-    image: "https://i.postimg.cc/L6qhcvZY/Introduction-to-Python.jpg"
-  },
-  {
-    title: {
-      en: "Machine Learning",
-      bn: "মেশিন লার্নিং"
+    {
+      title: {
+        en: "Machine Learning",
+        bn: "মেশিন লার্নিং"
+      },
+      image: "https://i.postimg.cc/mrSrY5Kq/machine-learning.png"
     },
-    image: "https://i.postimg.cc/mrSrY5Kq/machine-learning.png"
-  },
-  {
-    title: {
-      en: "Complete Web Development",
-      bn: "সম্পূর্ণ ওয়েব ডেভেলপমেন্ট"
+    {
+      title: {
+        en: "Complete Web Development",
+        bn: "সম্পূর্ণ ওয়েব ডেভেলপমেন্ট"
+      },
+      image: "https://i.postimg.cc/gkr6Ym10/Complete-Web-Development.png"
     },
-    image: "https://i.postimg.cc/gkr6Ym10/Complete-Web-Development.png"
-  },
-  {
-    title: {
-      en: "Digital Marketing",
-      bn: "ডিজিটাল মার্কেটিং"
+    {
+      title: {
+        en: "Digital Marketing",
+        bn: "ডিজিটাল মার্কেটিং"
+      },
+      image: "https://i.postimg.cc/XvKr2JBs/digital-marketing.png"
     },
-    image: "https://i.postimg.cc/XvKr2JBs/digital-marketing.png"
-  },
 
-  // Sustainability & Global Issues
-  {
-    title: {
-      en: "Introduction to Sustainable Development in Practice",
-      bn: "অনুশীলনে টেকসই উন্নয়নের ভূমিকা"
+    // Sustainability & Global Issues
+    {
+      title: {
+        en: "Introduction to Sustainable Development in Practice",
+        bn: "অনুশীলনে টেকসই উন্নয়নের ভূমিকা"
+      },
+      image: "https://i.postimg.cc/tCL7pPhr/Introduction-to-Sustainable-Development-in-Practice.jpg"
     },
-    image: "https://i.postimg.cc/tCL7pPhr/Introduction-to-Sustainable-Development-in-Practice.jpg"
-  },
-  {
-    title: {
-      en: "Gender equality and human rights in climate action and renewable energy",
-      bn: "জলবায়ু কর্ম ও নবায়নযোগ্য শক্তিতে লিঙ্গ সমতা ও মানবাধিকার"
+    {
+      title: {
+        en: "Gender equality and human rights in climate action and renewable energy",
+        bn: "জলবায়ু কর্ম ও নবায়নযোগ্য শক্তিতে লিঙ্গ সমতা ও মানবাধিকার"
+      },
+      image: "https://i.postimg.cc/V6Dd8VRM/Gender-equality-and-human-rights-in-climate-action-and-renewable-energy.jpg"
     },
-    image: "https://i.postimg.cc/V6Dd8VRM/Gender-equality-and-human-rights-in-climate-action-and-renewable-energy.jpg"
-  },
-  {
-    title: {
-      en: "Net Zero 101- What, Why and How",
-      bn: "নেট জিরো ১০১: কি, কেন এবং কিভাবে"
+    {
+      title: {
+        en: "Net Zero 101- What, Why and How",
+        bn: "নেট জিরো ১০১: কি, কেন এবং কিভাবে"
+      },
+      image: "https://i.postimg.cc/ZR7Kgybx/Net-Zero-101-What-Why-and-How.jpg"
     },
-    image: "https://i.postimg.cc/ZR7Kgybx/Net-Zero-101-What-Why-and-How.jpg"
-  },
-  {
-    title: {
-      en: "The UN Climate Change process",
-      bn: "জাতিসংঘের জলবায়ু পরিবর্তন প্রক্রিয়া"
+    {
+      title: {
+        en: "The UN Climate Change process",
+        bn: "জাতিসংঘের জলবায়ু পরিবর্তন প্রক্রিয়া"
+      },
+      image: "https://i.postimg.cc/zv4DDZRL/The-UN-Climate-Change-process.jpg"
     },
-    image: "https://i.postimg.cc/zv4DDZRL/The-UN-Climate-Change-process.jpg"
-  },
 
-  // Academic & Professional Development
-  {
-    title: {
-      en: "Bangladesh Mathematical Olympiad",
-      bn: "বাংলাদেশ গণিত অলিম্পিয়াড"
+    // Academic & Professional Development
+    {
+      title: {
+        en: "Bangladesh Mathematical Olympiad",
+        bn: "বাংলাদেশ গণিত অলিম্পিয়াড"
+      },
+      image: "https://i.postimg.cc/pLFhFkWb/Bangladesh-Mathematical-Olympiad.png"
     },
-    image: "https://i.postimg.cc/pLFhFkWb/Bangladesh-Mathematical-Olympiad.png"
-  },
-  {
-    title: {
-      en: "Business Case Solving Certificate",
-      bn: "ব্যবসায়িক কেস সমাধান সার্টিফিকেট"
+    {
+      title: {
+        en: "Business Case Solving Certificate",
+        bn: "ব্যবসায়িক কেস সমাধান সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/4y27zSHZ/Business-Case-Solving-Certificate.png"
     },
-    image: "https://i.postimg.cc/4y27zSHZ/Business-Case-Solving-Certificate.png"
-  },
 
-  // Professional Skills
-  {
-    title: {
-      en: "Presentation and Public Speaking",
-      bn: "প্রেজেন্টেশন ও পাবলিক স্পিকিং"
+    // Professional Skills
+    {
+      title: {
+        en: "Presentation and Public Speaking",
+        bn: "প্রেজেন্টেশন ও পাবলিক স্পিকিং"
+      },
+      image: "https://i.postimg.cc/VvJLcL5Q/Presentation-and-Public-Speaking.png"
     },
-    image: "https://i.postimg.cc/VvJLcL5Q/Presentation-and-Public-Speaking.png"
-  },
-  {
-    title: {
-      en: "CV writing and interview",
-      bn: "সিভি লেখা ও ইন্টারভিউ প্রস্তুতি"
+    {
+      title: {
+        en: "CV writing and interview",
+        bn: "সিভি লেখা ও ইন্টারভিউ প্রস্তুতি"
+      },
+      image: "https://i.postimg.cc/cJGKMYCK/CV-writing-and-interview.jpg"
     },
-    image: "https://i.postimg.cc/cJGKMYCK/CV-writing-and-interview.jpg"
-  },
-  {
-    title: {
-      en: "Basic of management",
-      bn: "ম্যানেজমেন্টের মৌলিক বিষয়"
+    {
+      title: {
+        en: "Basic of management",
+        bn: "ম্যানেজমেন্টের মৌলিক বিষয়"
+      },
+      image: "https://i.postimg.cc/0jyKKsQc/Basic-of-management.jpg"
     },
-    image: "https://i.postimg.cc/0jyKKsQc/Basic-of-management.jpg"
-  },
-  {
-    title: {
-      en: "Money management",
-      bn: "টাকা ব্যবস্থাপনা"
+    {
+      title: {
+        en: "Money management",
+        bn: "টাকা ব্যবস্থাপনা"
+      },
+      image: "https://i.postimg.cc/fLTRBvNb/Money-management.jpg"
     },
-    image: "https://i.postimg.cc/fLTRBvNb/Money-management.jpg"
-  },
-  {
-    title: {
-      en: "Corporate etiquette",
-      bn: "ক cooperate শিষ্টাচার"
+    {
+      title: {
+        en: "Corporate etiquette",
+        bn: "ক cooperate শিষ্টাচার"
+      },
+      image: "https://i.postimg.cc/vHjxTCdt/Corporate-etiquette.jpg"
     },
-    image: "https://i.postimg.cc/vHjxTCdt/Corporate-etiquette.jpg"
-  },
-  {
-    title: {
-      en: "Communication hacks",
-      bn: "যোগাযোগ কৌশল"
+    {
+      title: {
+        en: "Communication hacks",
+        bn: "যোগাযোগ কৌশল"
+      },
+      image: "https://i.postimg.cc/dQ5yPLHX/Communication-hacks.jpg"
     },
-    image: "https://i.postimg.cc/dQ5yPLHX/Communication-hacks.jpg"
-  },
-  {
-    title: {
-      en: "Microsoft Office Starter Course Certificate",
-      bn: "মাইক্রোসফ্ট অফিস প্রাথমিক কোর্স সার্টিফিকেট"
+    {
+      title: {
+        en: "Microsoft Office Starter Course Certificate",
+        bn: "মাইক্রোসফ্ট অফিস প্রাথমিক কোর্স সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/bvPJ2hVk/Microsoft-Office-Starter-Course-Certificate.png"
     },
-    image: "https://i.postimg.cc/bvPJ2hVk/Microsoft-Office-Starter-Course-Certificate.png"
-  },
-  {
-    title: {
-      en: "Email Writing Certificate",
-      bn: "ইমেইল লেখার সার্টিফিকেট"
+    {
+      title: {
+        en: "Email Writing Certificate",
+        bn: "ইমেইল লেখার সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/fLwJ1NxD/Email-Writing-Certificate.png"
     },
-    image: "https://i.postimg.cc/fLwJ1NxD/Email-Writing-Certificate.png"
-  },
 
-  // Language Proficiency
-  {
-    title: {
-      en: "English for Everyday Certificate",
-      bn: "দৈনন্দিন ইংরেজি সার্টিফিকেট"
+    // Language Proficiency
+    {
+      title: {
+        en: "English for Everyday Certificate",
+        bn: "দৈনন্দিন ইংরেজি সার্টিফিকেট"
+      },
+      image: "https://i.postimg.cc/nrrMcGRW/English-for-Everyday-Certificate.png"
     },
-    image: "https://i.postimg.cc/nrrMcGRW/English-for-Everyday-Certificate.png"
-  },
-  {
-    title: {
-      en: "Academic English grammar",
-      bn: "একাডেমিক ইংরেজি ব্যাকরণ"
+    {
+      title: {
+        en: "Academic English grammar",
+        bn: "একাডেমিক ইংরেজি ব্যাকরণ"
+      },
+      image: "https://i.postimg.cc/qRLC7RkN/Academic-English-grammar.jpg"
     },
-    image: "https://i.postimg.cc/qRLC7RkN/Academic-English-grammar.jpg"
-  },
-  {
-    title: {
-      en: "IELTS mock test solution",
-      bn: "আইইএলটিএস মক টেস্ট সমাধান"
-    },
-    image: "https://i.postimg.cc/L5W5qgG8/IELTS-mock-test-solution.jpg"
-  }
-];
+    {
+      title: {
+        en: "IELTS mock test solution",
+        bn: "আইইএলটিএস মক টেস্ট সমাধান"
+      },
+      image: "https://i.postimg.cc/L5W5qgG8/IELTS-mock-test-solution.jpg"
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <Navigation
         navigationItems={navigationItems}
         activeSection={activeSection}
@@ -471,9 +462,10 @@ const certificates = [
             'text-white'
           )}
         >
-          {/* Animated background elements */}
+          {/* Enhanced animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(76,29,149,0.1),rgba(0,0,0,0)_50%)]"></div>
             <motion.div
               animate={{
                 scale: [1, 1.1, 1],
@@ -503,7 +495,7 @@ const certificates = [
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="flex flex-col lg:flex-row items-center gap-12">
-              {/* Profile Image */}
+              {/* Enhanced profile image with better glow effect */}
               <motion.div
                 initial={{ scale: 0, rotate: -15 }}
                 animate={{ scale: 1, rotate: 0 }}
@@ -516,12 +508,12 @@ const certificates = [
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/75 to-blue-500/75 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/75 via-purple-500/75 to-blue-500/75 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
                 <div className="absolute inset-0 rounded-full border-4 border-white/10 group-hover:border-white/30 transition-all duration-500"></div>
                 <img
                   src="https://github.com/RidoanDev.png"
                   alt="Md Ridoan Mahmud Zisan"
-                  className="w-56 h-56 rounded-full border-4 border-white/20 shadow-2xl relative z-10 transition-all duration-300 group-hover:border-white/40"
+                  className="w-56 h-56 rounded-full border-4 border-white/20 shadow-2xl relative z-10 transition-all duration-300 group-hover:border-white/40 object-cover"
                 />
                 <motion.div
                   className="absolute inset-0 rounded-full border-2 border-white/10"
@@ -535,21 +527,21 @@ const certificates = [
                 />
               </motion.div>
 
-              {/* Profile Content */}
+              {/* Enhanced profile content with better typography and animations */}
               <div className="flex-1 text-center lg:text-left">
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-blue-100">
                     {content[language].name}
                   </h1>
                   <motion.p
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="text-xl md:text-2xl mb-6 text-slate-200"
+                    className="text-xl md:text-2xl mb-6 text-blue-100"
                   >
                     {content[language].role.split(' | ').map((part, i) => (
                       <motion.span
@@ -575,7 +567,7 @@ const certificates = [
                   </motion.p>
                 </motion.div>
 
-                {/* Action Buttons */}
+                {/* Enhanced action buttons */}
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -585,18 +577,18 @@ const certificates = [
                   <motion.a
                     href="/Resume.pdf"
                     download="Md Ridoan Mahmud Zisan.pdf"
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                     className={cn(
                       'px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl',
-                      'bg-white text-slate-900 hover:bg-slate-100'
+                      'bg-gradient-to-br from-white to-blue-50 text-slate-900 hover:from-blue-50 hover:to-white'
                     )}
                   >
                     <Download size={20} />
                     {content[language].downloadCV}
                   </motion.a>
                   <motion.button
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection('certificates')}
                     className={cn(
@@ -634,7 +626,7 @@ const certificates = [
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-6 rounded-lg shadow-md"
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-green-700">
                 <FileText />
@@ -669,8 +661,9 @@ const certificates = [
         />
       </Element>
 
+      {/* Enhanced floating action buttons */}
       <div
-        className="fixed bottom-6 right-6 flex flex-col items-end gap-2"
+        className="fixed bottom-6 right-6 flex flex-col items-end gap-3"
         ref={containerRef}
       >
         {isMenuOpen && (
@@ -694,7 +687,7 @@ const certificates = [
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             whileHover={{ scale: 1.05 }}
-            className="bg-green-500 text-white p-4 rounded-full shadow-md hover:bg-green-600 transition-colors"
+            className="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-4 rounded-full shadow-lg hover:shadow-emerald-200/50 transition-all"
             title="Send Email"
           >
             <Mail size={24} />
@@ -708,10 +701,10 @@ const certificates = [
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           className={cn(
-            'p-4 rounded-full shadow-md text-white transition-colors',
+            'p-4 rounded-full shadow-lg text-white transition-all',
             isMenuOpen
-              ? 'bg-red-500 hover:bg-red-600'
-              : 'bg-blue-500 hover:bg-blue-600'
+              ? 'bg-gradient-to-br from-red-500 to-pink-600 hover:shadow-red-200/50'
+              : 'bg-gradient-to-br from-blue-500 to-indigo-600 hover:shadow-blue-200/50'
           )}
           title={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
@@ -723,6 +716,32 @@ const certificates = [
           </motion.div>
         </motion.button>
       </div>
+
+      {/* Add scroll-to-top button */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => scrollToSection('profile')}
+        className="fixed bottom-6 left-6 p-3 rounded-full bg-gradient-to-br from-purple-600 to-indigo-700 text-white shadow-lg hover:shadow-purple-200/50 transition-all z-50"
+        title="Scroll to top"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="h-5 w-5" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M5 10l7-7m0 0l7 7m-7-7v18" 
+          />
+        </svg>
+      </motion.button>
     </div>
   );
 }

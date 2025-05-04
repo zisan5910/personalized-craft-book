@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -58,6 +59,16 @@ const Navigation = ({
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
+          {/* Logo or Brand */}
+          <div className="flex items-center">
+            <motion.div 
+              whileHover={{ rotate: 5, scale: 1.05 }}
+              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600"
+            >
+              {language === 'en' ? 'MR Zisan' : 'এম আর জিসান'}
+            </motion.div>
+          </div>
+          
           {/* Mobile Menu Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -90,7 +101,7 @@ const Navigation = ({
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300',
                   activeSection === (item.target || item.id)
-                    ? 'bg-green-100 text-green-700 shadow-sm'
+                    ? 'bg-gradient-to-r from-green-50 to-blue-50 text-green-700 shadow-sm'
                     : 'text-gray-600 hover:bg-gray-100'
                 )}
               >
@@ -117,9 +128,9 @@ const Navigation = ({
             onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
             className={cn(
               'px-4 py-2 rounded-md text-sm font-medium transition-all duration-300',
-              'bg-gradient-to-r from-green-600 to-green-700 text-white',
-              'hover:from-green-500 hover:to-green-600',
-              'focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
+              'bg-gradient-to-r from-indigo-600 to-purple-600 text-white',
+              'hover:from-indigo-500 hover:to-purple-500',
+              'focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2'
             )}
           >
             {language === 'en' ? 'বাংলা' : 'English'}
@@ -134,7 +145,7 @@ const Navigation = ({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden overflow-hidden bg-white"
+              className="md:hidden overflow-hidden bg-white rounded-b-lg shadow-lg"
             >
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -156,7 +167,7 @@ const Navigation = ({
                     className={cn(
                       'w-full flex items-center gap-2 px-4 py-3 rounded-md transition-all duration-300',
                       activeSection === (item.target || item.id)
-                        ? 'bg-green-100 text-green-700 shadow-sm'
+                        ? 'bg-gradient-to-r from-green-50 to-blue-50 text-green-700 shadow-sm'
                         : 'text-gray-600 hover:bg-gray-100'
                     )}
                   >
