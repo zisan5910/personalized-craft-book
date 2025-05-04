@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import {
@@ -8,16 +7,12 @@ import {
   ExternalLink,
   Facebook,
 } from 'lucide-react';
-import { cn } from '../lib/utils';
 
 interface ExperienceProps {
   language: 'en' | 'bn';
-  theme?: 'light' | 'dark';
 }
 
-const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
-  const isDark = theme === 'dark';
-  
+const Experience = ({ language }: ExperienceProps) => {
   const experiences = [
     {
       id: 'bobdo',
@@ -54,20 +49,20 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
             en: 'Built blood donor platform serving 68k+ community members',
             bn: '৬৮ হাজার+ সদস্যের জন্য রক্তদাতা প্ল্যাটফর্ম তৈরি করা হয়েছে',
           },
-          icon: <Target size={18} className={isDark ? "text-red-400" : "text-red-500"} />,
+          icon: <Target size={18} className="text-red-500" />,
         },
         {
           description: {
             en: 'Implemented digital system reducing response time by 40%',
             bn: 'ডিজিটাল সিস্টেম চালু করে সাড়া দেওয়ার সময় ৪০% কমানো হয়েছে',
           },
-          icon: <HeartHandshake size={18} className={isDark ? "text-red-400" : "text-red-500"} />,
+          icon: <HeartHandshake size={18} className="text-red-500" />,
         },
       ],
-      borderColor: isDark ? "border-red-600" : "border-red-500",
-      bgColor: isDark ? "bg-red-900/30" : "bg-red-100",
-      hoverBgColor: isDark ? "hover:bg-red-900/50" : "hover:bg-red-50",
-      iconColor: isDark ? "text-red-400" : "text-red-500",
+      borderColor: 'border-red-500',
+      bgColor: 'bg-red-100',
+      hoverBgColor: 'hover:bg-red-50',
+      iconColor: 'text-red-500',
     },
     {
       id: 'projects',
@@ -88,7 +83,7 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
           },
           description: {
             en: 'React + Firebase blood management system with real-time donor database',
-            bn: 'রিয়েল-টাইম ডোনার ডাটাবেস সহ React ও Firebase দিয়ে তৈরি রক্ত ব্যবস্থাপনা সিস্টেম',
+            bn: 'রিয়েল-টাইম ডোনার ডাটাবেস সহ React ও Firebase দিয়ে তৈরি রক্ত ব্যবস্থাপনা সিস্টেম',
           },
           url: 'https://bobdo.netlify.app',
         },
@@ -115,10 +110,10 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
           url: 'https://devhub-i.netlify.app',
         },
       ],
-      borderColor: isDark ? "border-blue-600" : "border-blue-500",
-      bgColor: isDark ? "bg-blue-900/30" : "bg-blue-100",
-      hoverBgColor: isDark ? "hover:bg-blue-900/50" : "hover:bg-blue-50",
-      iconColor: isDark ? "text-blue-400" : "text-blue-500",
+      borderColor: 'border-blue-500',
+      bgColor: 'bg-blue-100',
+      hoverBgColor: 'hover:bg-blue-50',
+      iconColor: 'text-blue-500',
     },
   ];
 
@@ -128,20 +123,14 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
-        className={cn(
-          "p-6 rounded-lg shadow-md",
-          isDark ? "bg-gray-800 text-white" : "bg-white"
-        )}
+        className="bg-white p-6 rounded-lg shadow-md"
         aria-labelledby="experience-heading"
       >
         <h2
           id="experience-heading"
-          className={cn(
-            "text-2xl font-bold mb-8 flex items-center gap-2",
-            isDark ? "text-green-400" : "text-green-700"
-          )}
+          className="text-2xl font-bold mb-8 flex items-center gap-2 text-green-700"
         >
-          <Briefcase className={isDark ? "text-emerald-400" : "text-emerald-500"} aria-hidden="true" />
+          <Briefcase className="text-emerald-500" aria-hidden="true" />
           {language === 'en' ? 'Experience' : 'অভিজ্ঞতা'}
         </h2>
 
@@ -157,7 +146,12 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
             >
               <div className="flex items-start gap-4">
                 <div
-                  className={`p-2 ${experience.bgColor} rounded-full group-hover:${experience.bgColor.replace('30', '50').replace('100', '200')} transition-colors flex-shrink-0`}
+                  className={`p-2 ${
+                    experience.bgColor
+                  } rounded-full group-hover:${experience.bgColor.replace(
+                    '100',
+                    '200'
+                  )} transition-colors flex-shrink-0`}
                 >
                   <Briefcase
                     size={20}
@@ -178,12 +172,7 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={cn(
-                              "flex items-center gap-1 text-sm",
-                              isDark 
-                                ? "text-blue-400 hover:text-blue-300" 
-                                : "text-blue-600 hover:text-blue-800"
-                            )}
+                            className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
                           >
                             {link.icon}
                             {link.label[language]}
@@ -193,12 +182,12 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
                     )}
                   </div>
 
-                  <p className={isDark ? "text-gray-300 mt-1" : "text-gray-600 mt-1"}>
+                  <p className="text-gray-600 mt-1">
                     {experience.role[language]}
                   </p>
 
                   {experience.achievements && (
-                    <ul className={cn("mt-3 space-y-2", isDark ? "text-gray-300" : "text-gray-700")}>
+                    <ul className="mt-3 space-y-2 text-gray-700">
                       {experience.achievements.map((achievement, index) => (
                         <li key={index} className="flex items-start gap-2">
                           <span className="mt-1 flex-shrink-0">
@@ -226,21 +215,13 @@ const Experience = ({ language, theme = 'light' }: ExperienceProps) => {
                               href={project.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={cn(
-                                "flex items-center gap-1 text-sm",
-                                isDark 
-                                  ? "text-blue-400 hover:text-blue-300" 
-                                  : "text-blue-600 hover:text-blue-800"
-                              )}
+                              className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
                             >
                               <ExternalLink size={16} />
                               {language === 'en' ? 'View' : 'দেখুন'}
                             </a>
                           </div>
-                          <p className={cn(
-                            "ml-7 mt-1", 
-                            isDark ? "text-gray-300" : "text-gray-700"
-                          )}>
+                          <p className="text-gray-700 ml-7 mt-1">
                             {project.description[language]}
                           </p>
                         </div>

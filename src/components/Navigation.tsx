@@ -4,18 +4,19 @@ import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '../lib/utils';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface NavigationProps {
   navigationItems: Array<{
     id: string;
     icon: JSX.Element;
     target?: string;
+    title: string;
   }>;
   activeSection: string;
   scrollToSection: (section: string) => void;
   language: 'en' | 'bn';
   setLanguage: (lang: 'en' | 'bn') => void;
-  theme?: 'light' | 'dark';
 }
 
 const Navigation = ({
@@ -24,15 +25,14 @@ const Navigation = ({
   scrollToSection,
   language,
   setLanguage,
-  theme = 'light',
 }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { ref } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0,
     initialInView: true,
   });
-  
+  const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   useEffect(() => {
@@ -54,16 +54,16 @@ const Navigation = ({
         y: 0,
         backgroundColor: isScrolled
           ? isDark 
-            ? 'rgba(17, 24, 39, 0.9)' 
+            ? 'rgba(15, 23, 42, 0.9)'
             : 'rgba(255, 255, 255, 0.9)'
-          : isDark 
-            ? 'rgba(17, 24, 39, 1)' 
-            : 'rgba(255, 255, 255, 1)',
+          : isDark
+            ? 'rgba(15, 23, 42, 0.7)'
+            : 'rgba(255, 255, 255, 0.7)',
       }}
       className={cn(
         'fixed w-full z-50 transition-all duration-300',
         isScrolled ? 'backdrop-blur-md shadow-lg' : 'shadow-md',
-        isDark ? 'text-white' : 'text-gray-900'
+        isDark ? 'text-white' : 'text-gray-800'
       )}
     >
       <div className="container mx-auto px-4">
@@ -73,12 +73,11 @@ const Navigation = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleMenu}
-            className={cn(
-              "md:hidden p-2 rounded-md focus:outline-none focus:ring-2",
+            className={`md:hidden p-2 rounded-md focus:outline-none focus:ring-2 ${
               isDark 
-                ? "text-gray-300 hover:bg-gray-700 focus:ring-green-400" 
-                : "text-gray-600 hover:bg-gray-100 focus:ring-green-500"
-            )}
+                ? 'text-gray-300 hover:bg-gray-800 focus:ring-green-700' 
+                : 'text-gray-600 hover:bg-gray-100 focus:ring-green-500'
+            }`}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <AnimatePresence mode="wait">
@@ -105,11 +104,11 @@ const Navigation = ({
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300',
                   activeSection === (item.target || item.id)
-                    ? isDark 
-                      ? 'bg-green-900/70 text-green-300 shadow-sm' 
+                    ? isDark
+                      ? 'bg-green-900/30 text-green-400 shadow-sm border border-green-700/30'
                       : 'bg-green-100 text-green-700 shadow-sm'
-                    : isDark 
-                      ? 'text-gray-300 hover:bg-gray-700' 
+                    : isDark
+                      ? 'text-gray-300 hover:bg-gray-800/50'
                       : 'text-gray-600 hover:bg-gray-100'
                 )}
               >
@@ -123,7 +122,7 @@ const Navigation = ({
                   {item.icon}
                 </motion.div>
                 <span className="text-sm font-medium">
-                  {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
+                  {item.title}
                 </span>
               </motion.button>
             ))}
@@ -139,8 +138,7 @@ const Navigation = ({
               isDark
                 ? 'bg-gradient-to-r from-green-700 to-green-800 text-white hover:from-green-600 hover:to-green-700'
                 : 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-500 hover:to-green-600',
-              'focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2',
-              isDark && 'focus:ring-offset-gray-800'
+              'focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
             )}
           >
             {language === 'en' ? 'বাংলা' : 'English'}
@@ -155,10 +153,7 @@ const Navigation = ({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className={cn(
-                "md:hidden overflow-hidden",
-                isDark ? "bg-gray-800" : "bg-white"
-              )}
+              className={`md:hidden overflow-hidden ${isDark ? 'bg-gray-900/80' : 'bg-white'} backdrop-blur-md`}
             >
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -180,11 +175,11 @@ const Navigation = ({
                     className={cn(
                       'w-full flex items-center gap-2 px-4 py-3 rounded-md transition-all duration-300',
                       activeSection === (item.target || item.id)
-                        ? isDark 
-                          ? 'bg-green-900/70 text-green-300 shadow-sm' 
+                        ? isDark
+                          ? 'bg-green-900/30 text-green-400 shadow-sm'
                           : 'bg-green-100 text-green-700 shadow-sm'
-                        : isDark 
-                          ? 'text-gray-300 hover:bg-gray-700' 
+                        : isDark
+                          ? 'text-gray-300 hover:bg-gray-800/50'
                           : 'text-gray-600 hover:bg-gray-100'
                     )}
                   >
@@ -198,7 +193,7 @@ const Navigation = ({
                       {item.icon}
                     </motion.div>
                     <span className="font-medium">
-                      {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
+                      {item.title}
                     </span>
                   </motion.button>
                 ))}

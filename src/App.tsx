@@ -19,11 +19,10 @@ import {
   HeartHandshake,
   Mail,
   Share2,
-  Sun,
-  Moon,
+  Sparkle,
 } from 'lucide-react';
 import { Element, scroller } from 'react-scroll';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from './lib/utils';
 
@@ -38,29 +37,21 @@ import Information from './components/Information';
 import Education from './components/Education';
 import Experience from './components/Experience';
 import Footer from './components/Footer';
+import AnimatedBackground from './components/AnimatedBackground';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import { useTheme } from './contexts/ThemeContext';
 
 function App() {
   const [language, setLanguage] = useState<'en' | 'bn'>('en');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [activeSection, setActiveSection] = useState<string>('profile');
   const [age, setAge] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isGhostOpen, setIsGhostOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+  const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   useEffect(() => {
-    // Check if user prefers dark mode
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      setTheme('dark');
-    }
-
     const calculateAge = () => {
       const birthDate = new Date('2007-12-31');
       const today = new Date();
@@ -121,11 +112,6 @@ function App() {
     };
   }, []);
 
-  // Set body background color based on theme
-  useEffect(() => {
-    document.body.className = isDark ? 'bg-gray-900' : 'bg-slate-50';
-  }, [theme, isDark]);
-
   const scrollToSection = (section: string) => {
     scroller.scrollTo(section, {
       duration: 800,
@@ -135,71 +121,70 @@ function App() {
     setActiveSection(section);
   };
 
-  const contentEn = {
-    name: 'Md Ridoan Mahmud Zisan',
-    role: 'Student | Volunteer | Web Application Developer',
-    statement:
-      'As a dedicated student and volunteer, I aim to use my academic knowledge and interpersonal skills to contribute to educational and social initiatives. I seek opportunities for growth, collaboration, and positive impact while upholding integrity, empathy, and excellence.',
-    downloadCV: 'Download Resume',
-    education: 'Education',
-    experience: 'Experience',
-    skills: 'Skills',
-    certificates: 'Certificates',
-    contact: 'Contact',
-    achievements: 'Achievements',
-    certifications: 'Certifications',
-    volunteerWork: 'Volunteer Work',
-    languages: 'Language Skills',
-    computerSkills: 'Computer Skills',
-    adminSkills: 'Administrative Skills',
-    family: 'Family & Personal Info',
-    age: 'Age',
-    years: 'years',
-    sections: {
-      profile: 'Profile',
+  const content = {
+    en: {
+      name: 'Md Ridoan Mahmud Zisan',
+      role: 'Student | Volunteer | Web Application Developer',
+      statement:
+        'As a dedicated student and volunteer, I aim to use my academic knowledge and interpersonal skills to contribute to educational and social initiatives. I seek opportunities for growth, collaboration, and positive impact while upholding integrity, empathy, and excellence.',
+      downloadCV: 'Download Resume',
       education: 'Education',
       experience: 'Experience',
-      skills: 'Skills & Competencies',
+      skills: 'Skills',
       certificates: 'Certificates',
       contact: 'Contact',
-      family: 'Family & Personal',
-      share: 'Share',
+      achievements: 'Achievements',
+      certifications: 'Certifications',
+      volunteerWork: 'Volunteer Work',
+      languages: 'Language Skills',
+      computerSkills: 'Computer Skills',
+      adminSkills: 'Administrative Skills',
+      family: 'Family & Personal Info',
+      age: 'Age',
+      years: 'years',
+      sections: {
+        profile: 'Profile',
+        education: 'Education',
+        experience: 'Experience',
+        skills: 'Skills & Competencies',
+        certificates: 'Certificates',
+        contact: 'Contact',
+        family: 'Family & Personal',
+        share: 'Share',
+      },
     },
-  };
-
-  const contentBn = {
-    name: 'মো: রিদওয়ান মাহমুদ জিসান',
-    role: 'শিক্ষার্থী | স্বেচ্ছাসেবী | ওয়েব এপ্লিকেশন ডেভলপার',
-    statement:
-      'একজন নিবেদিতপ্রাণ ছাত্র এবং স্বেচ্ছাসেবক হিসেবে, আমি আমার একাডেমিক জ্ঞান এবং আন্তঃব্যক্তিক দক্ষতা ব্যবহার করে শিক্ষাগত এবং সামাজিক উদ্যোগে অবদান রাখার লক্ষ্য রাখি। আমি সততা, সহানুভূতি এবং শ্রেষ্ঠত্ব বজায় রেখে বৃদ্ধি, সহযোগিতা এবং ইতিবাচক প্রভাবের সুযোগ খুঁজি।',
-    downloadCV: 'জীবনবৃত্তান্ত ডাউনলোড করুন',
-    education: 'শিক্ষা',
-    experience: 'অভিজ্ঞতা',
-    skills: 'দক্ষতা',
-    certificates: 'সার্টিফিকেট',
-    contact: 'যোগাযোগ',
-    achievements: 'অর্জন',
-    certifications: 'সার্টিফিকেট',
-    volunteerWork: 'স্বেচ্ছাসেবী কাজ',
-    languages: 'ভাষার দক্ষতা',
-    computerSkills: 'কম্পিউটার দক্ষতা',
-    adminSkills: 'প্রশাসনিক দক্ষতা',
-    family: 'পারিবারিক ও ব্যক্তিগত তথ্য',
-    age: 'বয়স',
-    years: 'বছর',
-    sections: {
-      profile: 'প্রোফাইল',
+    bn: {
+      name: 'মো: রিদওয়ান মাহমুদ জিসান',
+      role: 'শিক্ষার্থী | স্বেচ্ছাসেবী | ওয়েব এপ্লিকেশন ডেভলপার',
+      statement:
+        'একজন নিবেদিতপ্রাণ ছাত্র এবং স্বেচ্ছাসেবক হিসেবে, আমি আমার একাডেমিক জ্ঞান এবং আন্তঃব্যক্তিক দক্ষতা ব্যবহার করে শিক্ষাগত এবং সামাজিক উদ্যোগে অবদান রাখার লক্ষ্য রাখি। আমি সততা, সহানুভূতি এবং শ্রেষ্ঠত্ব বজায় রেখে বৃদ্ধি, সহযোগিতা এবং ইতিবাচক প্রভাবের সুযোগ খুঁজি।',
+      downloadCV: 'জীবনবৃত্তান্ত ডাউনলোড করুন',
       education: 'শিক্ষা',
       experience: 'অভিজ্ঞতা',
-      skills: 'দক্ষতা ও যোগ্যতা',
+      skills: 'দক্ষতা',
       certificates: 'সার্টিফিকেট',
       contact: 'যোগাযোগ',
-      family: 'পারিবারিক তথ্য',
-      share: 'শেয়ার',
+      achievements: 'অর্জন',
+      certifications: 'সার্টিফিকেট',
+      volunteerWork: 'স্বেচ্ছাসেবী কাজ',
+      languages: 'ভাষার দক্ষতা',
+      computerSkills: 'কম্পিউটার দক্ষতা',
+      adminSkills: 'প্রশাসনিক দক্ষতা',
+      family: 'পারিবারিক ও ব্যক্তিগত তথ্য',
+      age: 'বয়স',
+      years: 'বছর',
+      sections: {
+        profile: 'প্রোফাইল',
+        education: 'শিক্ষা',
+        experience: 'অভিজ্ঞতা',
+        skills: 'দক্ষতা ও যোগ্যতা',
+        certificates: 'সার্টিফিকেট',
+        contact: 'যোগাযোগ',
+        family: 'পারিবারিক তথ্য',
+        share: 'শেয়ার',
+      },
     },
   };
-
-  const content = language === 'en' ? contentEn : contentBn;
 
   const navigationItems = [
     {
@@ -207,10 +192,7 @@ function App() {
       icon: (
         <UserCircle
           size={22}
-          className={cn(
-            "text-indigo-500 hover:scale-110 transition-all hover:drop-shadow-lg",
-            isDark && "text-indigo-400"
-          )}
+          className="text-indigo-500 hover:scale-110 transition-all hover:drop-shadow-lg"
         />
       ),
       title: 'Profile',
@@ -472,40 +454,24 @@ function App() {
   ];
 
   return (
-    <div className={cn(
-      "min-h-screen transition-colors duration-300",
-      isDark ? "bg-gray-900 text-white" : "bg-slate-50 text-gray-900"
-    )}>
+    <div className={`min-h-screen ${isDark ? 'dark' : ''}`}>
+      <AnimatedBackground />
+      
       <Navigation
         navigationItems={navigationItems}
         activeSection={activeSection}
         scrollToSection={scrollToSection}
         language={language}
         setLanguage={setLanguage}
-        theme={theme}
       />
 
       <Element name="profile">
         <div className="fixed top-4 right-4 z-50">
-          <LiveChat theme={theme} />
+          <LiveChat />
         </div>
 
-        {/* Theme toggle button */}
-        <div className="fixed top-20 right-4 z-50">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={toggleTheme}
-            className={cn(
-              "p-3 rounded-full shadow-lg text-white",
-              isDark 
-                ? "bg-yellow-500 hover:bg-yellow-400" 
-                : "bg-indigo-600 hover:bg-indigo-700"
-            )}
-            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            {isDark ? <Sun size={20} /> : <Moon size={20} />}
-          </motion.button>
+        <div className="fixed top-4 left-4 z-50">
+          <ThemeSwitcher />
         </div>
 
         <motion.header
@@ -513,10 +479,9 @@ function App() {
           animate={{ opacity: 1 }}
           className={cn(
             'relative pt-24 pb-16 overflow-hidden',
-            isDark
-              ? 'bg-gradient-to-br from-gray-900 via-purple-900/70 to-gray-900'
-              : 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
-            'text-white'
+            isDark 
+              ? 'text-white' 
+              : 'text-slate-800'
           )}
         >
           {/* Animated background elements */}
@@ -532,7 +497,11 @@ function App() {
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
-              className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-purple-500/30 to-transparent rounded-full filter blur-3xl"
+              className={`absolute -top-1/2 -left-1/2 w-full h-full rounded-full filter blur-3xl ${
+                isDark 
+                  ? 'bg-gradient-to-br from-purple-500/30 to-transparent' 
+                  : 'bg-gradient-to-br from-sky-400/20 to-transparent'
+              }`}
             />
             <motion.div
               animate={{
@@ -545,13 +514,17 @@ function App() {
                 ease: 'easeInOut',
                 delay: 1,
               }}
-              className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-blue-500/20 to-transparent rounded-full filter blur-3xl"
+              className={`absolute -bottom-1/2 -right-1/2 w-full h-full rounded-full filter blur-3xl ${
+                isDark 
+                  ? 'bg-gradient-to-br from-blue-500/20 to-transparent' 
+                  : 'bg-gradient-to-br from-indigo-300/20 to-transparent'
+              }`}
             />
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="flex flex-col lg:flex-row items-center gap-12">
-              {/* Profile Image */}
+              {/* Profile Image with animated effect */}
               <motion.div
                 initial={{ scale: 0, rotate: -15 }}
                 animate={{ scale: 1, rotate: 0 }}
@@ -564,23 +537,65 @@ function App() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/75 to-blue-500/75 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-white/10 group-hover:border-white/30 transition-all duration-500"></div>
-                <img
-                  src="https://github.com/RidoanDev.png"
-                  alt="Md Ridoan Mahmud Zisan"
-                  className="w-56 h-56 rounded-full border-4 border-white/20 shadow-2xl relative z-10 transition-all duration-300 group-hover:border-white/40"
+                <motion.div 
+                  animate={{ 
+                    rotate: [0, 360],
+                  }}
+                  transition={{ 
+                    duration: 20, 
+                    ease: "linear", 
+                    repeat: Infinity 
+                  }}
+                  className={`absolute -inset-1 rounded-full opacity-70 blur-md ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-purple-600 via-blue-500 to-purple-600' 
+                      : 'bg-gradient-to-r from-sky-400 via-indigo-400 to-sky-400'
+                  }`}
                 />
+                <div className="absolute inset-0 rounded-full border-4 border-white/10 group-hover:border-white/30 transition-all duration-500"></div>
+                
+                <div className="relative">
+                  <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 opacity-75 blur-sm animate-pulse-slow"></div>
+                  <img
+                    src="https://github.com/RidoanDev.png"
+                    alt="Md Ridoan Mahmud Zisan"
+                    className="w-56 h-56 rounded-full border-4 border-white/20 shadow-2xl relative z-10 transition-all duration-300 group-hover:border-white/40"
+                  />
+                </div>
+                
+                {/* Floating sparkles */}
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-white/10"
-                  initial={{ scale: 1, opacity: 0 }}
-                  animate={{ scale: 1.2, opacity: 0 }}
+                  animate={{
+                    y: [0, -15, 0],
+                    opacity: [0, 1, 0],
+                  }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
-                    ease: 'easeOut',
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                    delay: 0.5,
                   }}
-                />
+                  className="absolute -top-2 right-5 text-yellow-300"
+                >
+                  <Sparkle size={20} />
+                </motion.div>
+                
+                <motion.div
+                  animate={{
+                    y: [0, -12, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-10 -right-2 text-pink-400"
+                >
+                  <Sparkle size={14} />
+                </motion.div>
               </motion.div>
 
               {/* Profile Content */}
@@ -590,16 +605,22 @@ function App() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
-                    {content.name}
+                  <h1 className={`text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-white to-slate-300' 
+                      : 'bg-gradient-to-r from-slate-800 to-slate-600'
+                  }`}>
+                    {content[language].name}
                   </h1>
                   <motion.p
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="text-xl md:text-2xl mb-6 text-slate-200"
+                    className={`text-xl md:text-2xl mb-6 ${
+                      isDark ? 'text-slate-200' : 'text-slate-600'
+                    }`}
                   >
-                    {content.role.split(' | ').map((part, i) => (
+                    {content[language].role.split(' | ').map((part, i) => (
                       <motion.span
                         key={i}
                         className="inline-block mr-2"
@@ -608,19 +629,31 @@ function App() {
                         transition={{ delay: 0.7 + i * 0.1 }}
                       >
                         {part}
-                        {i < content.role.split(' | ').length - 1 &&
+                        {i < content[language].role.split(' | ').length - 1 &&
                           ' | '}
                       </motion.span>
                     ))}
                   </motion.p>
-                  <motion.p
-                    initial={{ y: 10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
+                  
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="text-lg max-w-2xl mx-auto lg:mx-0 mb-8 text-slate-300 leading-relaxed"
+                    className="relative max-w-2xl mx-auto lg:mx-0 mb-8"
                   >
-                    {content.statement}
-                  </motion.p>
+                    <div className={`absolute inset-0 rounded-lg ${
+                      isDark 
+                        ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20' 
+                        : 'bg-gradient-to-r from-sky-100 to-indigo-100'
+                    } blur-md -z-10`}></div>
+                    <p className={`text-lg p-4 rounded-lg leading-relaxed ${
+                      isDark ? 'text-slate-300' : 'text-slate-700'
+                    } backdrop-blur-sm ${
+                      isDark ? 'bg-slate-900/40' : 'bg-white/40'
+                    } shadow-lg`}>
+                      {content[language].statement}
+                    </p>
+                  </motion.div>
                 </motion.div>
 
                 {/* Action Buttons */}
@@ -633,28 +666,37 @@ function App() {
                   <motion.a
                     href="/Resume.pdf"
                     download="Md Ridoan Mahmud Zisan.pdf"
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
                     whileTap={{ scale: 0.98 }}
                     className={cn(
                       'px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl',
-                      'bg-white text-slate-900 hover:bg-slate-100'
+                      isDark
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500'
+                        : 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white hover:from-sky-400 hover:to-indigo-400'
                     )}
                   >
                     <Download size={20} />
-                    {content.downloadCV}
+                    <span className="relative">
+                      {content[language].downloadCV}
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-white/40 transform scale-x-0 origin-left transition-transform group-hover:scale-x-100"></span>
+                    </span>
                   </motion.a>
                   <motion.button
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, boxShadow: "0 10px 25px -5px rgba(139, 92, 246, 0.4)" }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection('certificates')}
                     className={cn(
                       'px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl',
-                      'bg-transparent border-2 border-white/30 text-white',
-                      'hover:bg-white/10 hover:border-white/50'
+                      isDark
+                        ? 'bg-transparent border-2 border-purple-500/30 text-purple-300 hover:border-purple-500/50 hover:bg-purple-500/10'
+                        : 'bg-transparent border-2 border-indigo-500/30 text-indigo-600 hover:border-indigo-500/50 hover:bg-indigo-500/10'
                     )}
                   >
                     <ScrollText size={20} />
-                    {content.certifications}
+                    <span className="relative">
+                      {content[language].certifications}
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-current transform scale-x-0 origin-left transition-transform group-hover:scale-x-100"></span>
+                    </span>
                   </motion.button>
                 </motion.div>
               </div>
@@ -663,57 +705,164 @@ function App() {
         </motion.header>
       </Element>
 
-      <main className={cn(
-        "container mx-auto px-4 py-12",
-        isDark && "text-white"
-      )}>
+      <main className={`container mx-auto px-4 py-12 ${
+        isDark ? 'text-slate-100' : 'text-slate-700'
+      }`}>
         <div className="grid grid-cols-1 gap-8">
+          {/* Education Section with Glass Morphism */}
           <Element name="education">
-            <Education language={language} theme={theme} />
-          </Element>
-
-          <Element name="courses">
-            <Courses language={language} theme={theme} />
-          </Element>
-
-          <Element name="experience">
-            <Experience language={language} theme={theme} />
-          </Element>
-
-          <Element name="certificates">
-            <motion.section
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={cn(
-                "p-6 rounded-lg shadow-md",
-                isDark ? "bg-gray-800" : "bg-white"
-              )}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-purple-500/30 to-blue-500/30' 
+                  : 'bg-gradient-to-r from-sky-200 to-indigo-200'
+              }`}
             >
-              <h2 className={cn(
-                "text-2xl font-bold mb-6 flex items-center gap-2",
-                isDark ? "text-green-400" : "text-green-700"
-              )}>
-                <FileText className={isDark ? "text-emerald-400" : "text-emerald-500"} />
-                {content.certifications}
-              </h2>
-              <CertificateSlider
-                certificates={certificates}
-                language={language}
-              />
-            </motion.section>
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Education language={language} />
+              </div>
+            </motion.div>
           </Element>
 
+          {/* Courses Section */}
+          <Element name="courses">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-blue-500/30 to-emerald-500/30' 
+                  : 'bg-gradient-to-r from-indigo-200 to-emerald-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Courses language={language} />
+              </div>
+            </motion.div>
+          </Element>
+
+          {/* Experience Section */}
+          <Element name="experience">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-amber-500/30 to-red-500/30' 
+                  : 'bg-gradient-to-r from-amber-200 to-red-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Experience language={language} />
+              </div>
+            </motion.div>
+          </Element>
+
+          {/* Certificates Section */}
+          <Element name="certificates">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-green-500/30 to-teal-500/30' 
+                  : 'bg-gradient-to-r from-green-200 to-teal-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <h2 className={`text-2xl font-bold mb-6 flex items-center gap-2 ${
+                  isDark ? 'text-green-400' : 'text-green-700'
+                }`}>
+                  <FileText />
+                  {content[language].certifications}
+                </h2>
+                <CertificateSlider
+                  certificates={certificates}
+                  language={language}
+                />
+              </div>
+            </motion.div>
+          </Element>
+
+          {/* Skills Section */}
           <Element name="skills">
-            <Skill language={language} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-purple-500/30 to-pink-500/30' 
+                  : 'bg-gradient-to-r from-purple-200 to-pink-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Skill language={language} />
+              </div>
+            </motion.div>
           </Element>
 
+          {/* Information Section */}
           <Element name="information">
-            <Information language={language} age={age} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30' 
+                  : 'bg-gradient-to-r from-cyan-200 to-blue-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Information language={language} age={age} />
+              </div>
+            </motion.div>
           </Element>
 
+          {/* Contact Section */}
           <Element name="contact">
-            <Contact language={language} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className={`p-1 rounded-lg ${
+                isDark 
+                  ? 'bg-gradient-to-r from-indigo-500/30 to-purple-500/30' 
+                  : 'bg-gradient-to-r from-indigo-200 to-purple-200'
+              }`}
+            >
+              <div className={`${
+                isDark ? 'bg-slate-900/80' : 'bg-white/80'
+              } backdrop-blur-xl p-6 rounded-lg`}>
+                <Contact language={language} />
+              </div>
+            </motion.div>
           </Element>
         </div>
       </main>
@@ -723,10 +872,10 @@ function App() {
           language={language}
           scrollToSection={scrollToSection}
           content={content}
-          theme={theme}
         />
       </Element>
 
+      {/* Floating action buttons */}
       <div
         className="fixed bottom-6 right-6 flex flex-col items-end gap-2"
         ref={containerRef}
@@ -752,19 +901,18 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             whileHover={{ scale: 1.05 }}
-            className={cn(
-              "p-4 rounded-full shadow-md transition-colors",
+            className={`text-white p-4 rounded-full shadow-md transition-colors ${
               isDark 
-                ? "bg-green-600 text-white hover:bg-green-500" 
-                : "bg-green-500 text-white hover:bg-green-600"
-            )}
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500' 
+                : 'bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-300 hover:to-emerald-400'
+            }`}
             title="Send Email"
           >
             <Mail size={24} />
           </motion.a>
         )}
 
-        <LiveChat theme={theme} />
+        <LiveChat />
 
         <motion.button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -773,8 +921,12 @@ function App() {
           className={cn(
             'p-4 rounded-full shadow-md text-white transition-colors',
             isMenuOpen
-              ? (isDark ? 'bg-red-600 hover:bg-red-700' : 'bg-red-500 hover:bg-red-600')
-              : (isDark ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600')
+              ? isDark 
+                ? 'bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-500 hover:to-pink-500'
+                : 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-400 hover:to-pink-400'
+              : isDark
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500'
+                : 'bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400'
           )}
           title={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
@@ -786,34 +938,6 @@ function App() {
           </motion.div>
         </motion.button>
       </div>
-
-      {/* Scroll to top button */}
-      <motion.button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className={cn(
-          "fixed bottom-6 left-6 p-3 rounded-full shadow-lg z-50 transition-colors",
-          isDark 
-            ? "bg-indigo-600 hover:bg-indigo-700 text-white" 
-            : "bg-indigo-500 hover:bg-indigo-600 text-white"
-        )}
-      >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        >
-          <path d="m18 15-6-6-6 6"/>
-        </svg>
-      </motion.button>
     </div>
   );
 }

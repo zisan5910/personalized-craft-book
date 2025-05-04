@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import {
@@ -22,7 +21,6 @@ import {
   HeartHandshake,
   Share2,
 } from 'lucide-react';
-import { cn } from '../lib/utils';
 
 interface FooterProps {
   language: 'en' | 'bn';
@@ -35,12 +33,9 @@ interface FooterProps {
     contact: string;
     name: string;
   };
-  theme?: 'light' | 'dark';
 }
 
-const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterProps) => {
-  const isDark = theme === 'dark';
-  
+const Footer = ({ language, scrollToSection, content }: FooterProps) => {
   const footerData = {
     quickLinks: {
       title: {
@@ -49,7 +44,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
       },
       items: [
         {
-          icon: <UserCircle size={16} className={isDark ? "text-indigo-300" : "text-indigo-400"} />,
+          icon: <UserCircle size={16} className="text-indigo-400" />,
           text: {
             en: 'Profile',
             bn: 'প্রোফাইল',
@@ -57,7 +52,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('profile'),
         },
         {
-          icon: <School size={16} className={isDark ? "text-blue-300" : "text-blue-400"} />,
+          icon: <School size={16} className="text-blue-400" />,
           text: {
             en: 'Education',
             bn: 'শিক্ষা',
@@ -65,7 +60,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('education'),
         },
         {
-          icon: <BookOpen size={16} className={isDark ? "text-emerald-300" : "text-emerald-400"} />,
+          icon: <BookOpen size={16} className="text-emerald-400" />,
           text: {
             en: 'Courses',
             bn: 'কোর্সসমূহ',
@@ -73,7 +68,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('courses'),
         },
         {
-          icon: <Briefcase size={16} className={isDark ? "text-amber-300" : "text-amber-400"} />,
+          icon: <Briefcase size={16} className="text-amber-400" />,
           text: {
             en: 'Experience',
             bn: 'অভিজ্ঞতা',
@@ -81,7 +76,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('experience'),
         },
         {
-          icon: <FileBadge size={16} className={isDark ? "text-red-300" : "text-red-400"} />,
+          icon: <FileBadge size={16} className="text-red-400" />,
           text: {
             en: 'Certificates',
             bn: 'সার্টিফিকেট',
@@ -89,7 +84,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('certificates'),
         },
         {
-          icon: <Code size={16} className={isDark ? "text-purple-300" : "text-purple-400"} />,
+          icon: <Code size={16} className="text-purple-400" />,
           text: {
             en: 'Skills',
             bn: 'দক্ষতা',
@@ -97,7 +92,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('skills'),
         },
         {
-          icon: <HeartHandshake size={16} className={isDark ? "text-pink-300" : "text-pink-400"} />,
+          icon: <HeartHandshake size={16} className="text-pink-400" />,
           text: {
             en: 'Family',
             bn: 'পরিবার',
@@ -105,7 +100,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('family'),
         },
         {
-          icon: <Mail size={16} className={isDark ? "text-cyan-300" : "text-cyan-400"} />,
+          icon: <Mail size={16} className="text-cyan-400" />,
           text: {
             en: 'Contact',
             bn: 'যোগাযোগ',
@@ -113,7 +108,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           action: () => scrollToSection('contact'),
         },
         {
-          icon: <Share2 size={16} className={isDark ? "text-teal-300" : "text-teal-400"} />,
+          icon: <Share2 size={16} className="text-teal-400" />,
           text: {
             en: 'Share',
             bn: 'শেয়ার',
@@ -129,7 +124,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
       },
       items: [
         {
-          icon: <Download size={16} className={isDark ? "text-emerald-300" : "text-emerald-400"} />,
+          icon: <Download size={16} className="text-emerald-400" />,
           text: {
             en: 'Resume (PDF)',
             bn: 'জীবনবৃত্তান্ত (পিডিএফ)',
@@ -142,7 +137,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
           },
         },
         {
-          icon: <Award size={16} className={isDark ? "text-amber-300" : "text-amber-400"} />,
+          icon: <Award size={16} className="text-amber-400" />,
           text: {
             en: 'Certificates',
             bn: 'সার্টিফিকেট',
@@ -158,19 +153,19 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
       },
       items: [
         {
-          icon: <MapPin size={16} className={isDark ? "text-red-300" : "text-red-400"} />,
+          icon: <MapPin size={16} className="text-red-400" />,
           text: {
             en: 'Bogura, Bangladesh',
             bn: 'বগুড়া, বাংলাদেশ',
           },
         },
         {
-          icon: <Mail size={16} className={isDark ? "text-blue-300" : "text-blue-400"} />,
+          icon: <Mail size={16} className="text-blue-400" />,
           text: 'ridoan.zisan@gmail.com',
           link: 'mailto:ridoan.zisan@gmail.com',
         },
         {
-          icon: <Phone size={16} className={isDark ? "text-green-300" : "text-green-400"} />,
+          icon: <Phone size={16} className="text-green-400" />,
           text: {
             en: '+8801712525910',
             bn: '+৮৮০১৭১২৫২৫৯১০',
@@ -188,39 +183,34 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
         {
           icon: <Linkedin size={24} />,
           href: 'https://www.linkedin.com/in/ridoan2007',
-          color: isDark ? 'hover:text-blue-300' : 'hover:text-blue-400',
+          color: 'hover:text-blue-400',
         },
         {
           icon: <MessageCircle size={24} />,
           href: 'https://wa.me/8801712525910',
-          color: isDark ? 'hover:text-green-300' : 'hover:text-green-400',
+          color: 'hover:text-green-400',
         },
         {
           icon: <Facebook size={24} />,
           href: 'https://www.facebook.com/ridoan2007',
-          color: isDark ? 'hover:text-blue-400' : 'hover:text-blue-500',
+          color: 'hover:text-blue-500',
         },
         {
           icon: <Instagram size={24} />,
           href: 'https://www.instagram.com/ridoan2007',
-          color: isDark ? 'hover:text-pink-300' : 'hover:text-pink-400',
+          color: 'hover:text-pink-400',
         },
         {
           icon: <Twitter size={24} />,
           href: 'https://x.com/ridoan2007',
-          color: isDark ? 'hover:text-sky-300' : 'hover:text-sky-400',
+          color: 'hover:text-sky-400',
         },
       ],
     },
   };
 
   return (
-    <footer className={cn(
-      "py-12 relative overflow-hidden",
-      isDark 
-        ? "bg-gradient-to-br from-gray-900 to-gray-800 text-white" 
-        : "bg-gradient-to-br from-gray-900 to-gray-800 text-white"
-    )}>
+    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30"></div>
@@ -245,10 +235,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
                   <motion.button
                     whileHover={{ x: 5 }}
                     onClick={item.action}
-                    className={cn(
-                      "flex items-center gap-2 transition-colors w-full text-left",
-                      isDark ? "text-gray-300 hover:text-white" : "text-gray-300 hover:text-white"
-                    )}
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors w-full text-left"
                   >
                     {item.icon}
                     {item.text[language]}
@@ -275,10 +262,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
                   <motion.button
                     whileHover={{ x: 5 }}
                     onClick={item.action}
-                    className={cn(
-                      "flex items-center gap-2 transition-colors w-full text-left",
-                      isDark ? "text-gray-300 hover:text-white" : "text-gray-300 hover:text-white"
-                    )}
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors w-full text-left"
                   >
                     {item.icon}
                     {item.text[language]}
@@ -306,10 +290,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
                     key={index}
                     whileHover={{ x: 5 }}
                     href={item.link}
-                    className={cn(
-                      "flex items-center gap-2 transition-colors",
-                      isDark ? "text-gray-300 hover:text-white" : "text-gray-300 hover:text-white"
-                    )}
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
                   >
                     {item.icon}
                     {typeof item.text === 'string'
@@ -340,10 +321,7 @@ const Footer = ({ language, scrollToSection, content, theme = 'light' }: FooterP
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
-            className={cn(
-              "mt-12 pt-8",
-              isDark ? "border-t border-gray-800" : "border-t border-gray-700"
-            )}
+            className="mt-12 pt-8 border-t border-gray-700"
           >
             <div className="flex flex-col items-center">
               <h4 className="text-lg font-medium mb-6">
