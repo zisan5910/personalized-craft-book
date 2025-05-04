@@ -1,17 +1,14 @@
-
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '../lib/utils';
-import { useTheme } from '../contexts/ThemeContext';
 
 interface NavigationProps {
   navigationItems: Array<{
     id: string;
     icon: JSX.Element;
     target?: string;
-    title: string;
   }>;
   activeSection: string;
   scrollToSection: (section: string) => void;
@@ -32,8 +29,6 @@ const Navigation = ({
     threshold: 0,
     initialInView: true,
   });
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,17 +48,12 @@ const Navigation = ({
       animate={{
         y: 0,
         backgroundColor: isScrolled
-          ? isDark 
-            ? 'rgba(15, 23, 42, 0.9)'
-            : 'rgba(255, 255, 255, 0.9)'
-          : isDark
-            ? 'rgba(15, 23, 42, 0.7)'
-            : 'rgba(255, 255, 255, 0.7)',
+          ? 'rgba(255, 255, 255, 0.9)'
+          : 'rgba(255, 255, 255, 1)',
       }}
       className={cn(
         'fixed w-full z-50 transition-all duration-300',
-        isScrolled ? 'backdrop-blur-md shadow-lg' : 'shadow-md',
-        isDark ? 'text-white' : 'text-gray-800'
+        isScrolled ? 'backdrop-blur-md shadow-lg' : 'shadow-md'
       )}
     >
       <div className="container mx-auto px-4">
@@ -73,11 +63,7 @@ const Navigation = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleMenu}
-            className={`md:hidden p-2 rounded-md focus:outline-none focus:ring-2 ${
-              isDark 
-                ? 'text-gray-300 hover:bg-gray-800 focus:ring-green-700' 
-                : 'text-gray-600 hover:bg-gray-100 focus:ring-green-500'
-            }`}
+            className="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500"
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <AnimatePresence mode="wait">
@@ -104,12 +90,8 @@ const Navigation = ({
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300',
                   activeSection === (item.target || item.id)
-                    ? isDark
-                      ? 'bg-green-900/30 text-green-400 shadow-sm border border-green-700/30'
-                      : 'bg-green-100 text-green-700 shadow-sm'
-                    : isDark
-                      ? 'text-gray-300 hover:bg-gray-800/50'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-green-100 text-green-700 shadow-sm'
+                    : 'text-gray-600 hover:bg-gray-100'
                 )}
               >
                 <motion.div
@@ -122,7 +104,7 @@ const Navigation = ({
                   {item.icon}
                 </motion.div>
                 <span className="text-sm font-medium">
-                  {item.title}
+                  {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
                 </span>
               </motion.button>
             ))}
@@ -135,9 +117,8 @@ const Navigation = ({
             onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
             className={cn(
               'px-4 py-2 rounded-md text-sm font-medium transition-all duration-300',
-              isDark
-                ? 'bg-gradient-to-r from-green-700 to-green-800 text-white hover:from-green-600 hover:to-green-700'
-                : 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-500 hover:to-green-600',
+              'bg-gradient-to-r from-green-600 to-green-700 text-white',
+              'hover:from-green-500 hover:to-green-600',
               'focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
             )}
           >
@@ -153,7 +134,7 @@ const Navigation = ({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className={`md:hidden overflow-hidden ${isDark ? 'bg-gray-900/80' : 'bg-white'} backdrop-blur-md`}
+              className="md:hidden overflow-hidden bg-white"
             >
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -175,12 +156,8 @@ const Navigation = ({
                     className={cn(
                       'w-full flex items-center gap-2 px-4 py-3 rounded-md transition-all duration-300',
                       activeSection === (item.target || item.id)
-                        ? isDark
-                          ? 'bg-green-900/30 text-green-400 shadow-sm'
-                          : 'bg-green-100 text-green-700 shadow-sm'
-                        : isDark
-                          ? 'text-gray-300 hover:bg-gray-800/50'
-                          : 'text-gray-600 hover:bg-gray-100'
+                        ? 'bg-green-100 text-green-700 shadow-sm'
+                        : 'text-gray-600 hover:bg-gray-100'
                     )}
                   >
                     <motion.div
@@ -193,7 +170,7 @@ const Navigation = ({
                       {item.icon}
                     </motion.div>
                     <span className="font-medium">
-                      {item.title}
+                      {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
                     </span>
                   </motion.button>
                 ))}
