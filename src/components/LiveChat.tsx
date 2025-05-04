@@ -46,11 +46,11 @@ const LiveChat = ({ theme = 'light' }: LiveChatProps) => {
     // Simulate bot response after a short delay
     setTimeout(() => {
       const botResponses = [
-        'Thanks for your message! I'll get back to you soon.',
-        'I appreciate your question. Let me find that information for you.',
-        'Thanks for reaching out! I'll respond shortly.',
-        'Great question! I'll need to check on that.',
-        'I'll look into this and get back to you.',
+        "Thanks for your message! I'll get back to you soon.",
+        "I appreciate your question. Let me find that information for you.",
+        "Thanks for reaching out! I'll respond shortly.",
+        "Great question! I'll need to check on that.",
+        "I'll look into this and get back to you.",
       ];
       const randomResponse =
         botResponses[Math.floor(Math.random() * botResponses.length)];
