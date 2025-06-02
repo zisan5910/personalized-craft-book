@@ -1,6 +1,13 @@
-import React from 'react';
-import { Search, Menu, Archive, Share } from 'lucide-react';
+
+import React, { useState } from 'react';
+import { Search, Menu, Archive, Share, User } from 'lucide-react';
 import UserMenu from './UserMenu';
+import Auth from './Auth';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from './ui/dialog';
 
 interface HeaderProps {
   searchTerm: string;
@@ -10,11 +17,24 @@ interface HeaderProps {
 }
 
 const Header = ({ searchTerm, onSearchChange, showArchived, onToggleArchived }: HeaderProps) => {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-3">
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3">
+            <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
+              <DialogTrigger asChild>
+                <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <User size={18} className="sm:w-5 sm:h-5 text-gray-600" />
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md p-0 overflow-hidden">
+                <Auth />
+              </DialogContent>
+            </Dialog>
+            
             <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
               <Menu size={18} className="sm:w-5 sm:h-5 text-gray-600" />
             </button>
