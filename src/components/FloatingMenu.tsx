@@ -2,19 +2,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Send,
-  Ghost,
+  Bot,
   User,
   Loader2,
   X,
   Mail,
-  Briefcase,
-  GraduationCap,
-  Award,
-  Heart,
-  Linkedin,
-  Phone,
-  MapPin,
-  ExternalLink,
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -30,8 +22,6 @@ export const LiveChat = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isGhostHovering, setIsGhostHovering] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -264,7 +254,7 @@ export const LiveChat = () => {
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setIsMenuOpen(false);
+        // Don't close chat when clicking outside
       }
     };
 
@@ -355,7 +345,6 @@ export const LiveChat = () => {
           'https://mail.google.com/mail/?view=cm&fs=1&to=ridoan.zisan@gmail.com',
           '_blank'
         );
-    setIsMenuOpen(false);
   };
 
   return (
@@ -363,50 +352,13 @@ export const LiveChat = () => {
       className="fixed bottom-6 right-6 flex flex-col items-end gap-2 z-[9999]"
       ref={containerRef}
     >
-      {/* Email Button */}
-      {isMenuOpen && (
-        <>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              handleEmailClick();
-            }}
-            className="bg-green-500 text-white p-4 rounded-full shadow-md hover:bg-green-600 transition-colors"
-            title="Send Email"
-          >
-            <Mail size={24} />
-          </a>
-          <button
-            onClick={() => {
-              setIsChatOpen(true);
-              setIsMenuOpen(false);
-            }}
-            className="bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-blue-600 transition-colors"
-            title="Open Chat"
-          >
-            <Ghost size={24} />
-          </button>
-        </>
-      )}
-
-      {/* Main Floating Button */}
+      {/* Main Robot Button */}
       <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className={`p-4 rounded-full shadow-md ${
-          isMenuOpen
-            ? 'bg-red-500 hover:bg-red-600'
-            : 'bg-blue-500 hover:bg-blue-600'
-        } text-white transition-colors`}
-        title={isMenuOpen ? 'Close menu' : 'Open menu'}
+        onClick={() => setIsChatOpen(true)}
+        className="bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-blue-600 transition-colors"
+        title="Open Ghost AI"
       >
-        <div
-          className={`transition-transform duration-200 ${
-            isMenuOpen ? 'rotate-180' : 'rotate-0'
-          }`}
-        >
-          <Mail size={24} />
-        </div>
+        <Bot size={24} />
       </button>
 
       {/* Chat Window */}
@@ -415,13 +367,8 @@ export const LiveChat = () => {
           {/* Chat Header */}
           <div className="bg-blue-500 text-white p-2 rounded-t-lg flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <div
-                onMouseEnter={() => setIsGhostHovering(true)}
-                onMouseLeave={() => setIsGhostHovering(false)}
-              >
-                <Ghost className="w-5 h-5" />
-              </div>
-              <h2 className="font-semibold">Ghost</h2>
+              <Bot className="w-5 h-5" />
+              <h2 className="font-semibold">Ghost AI</h2>
             </div>
             <button
               onClick={() => setIsChatOpen(false)}
@@ -437,7 +384,7 @@ export const LiveChat = () => {
             {messages.length === 0 && (
               <div className="text-center text-gray-500 mt-8">
                 <div>
-                  <Ghost className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                  <Bot className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                 </div>
                 <p className="text-lg">Hello!</p>
                 <p className="text-sm mt-2">
@@ -468,7 +415,7 @@ export const LiveChat = () => {
                   {message.role === 'user' ? (
                     <User className="w-5 h-5 text-white" />
                   ) : (
-                    <Ghost className="w-5 h-5 text-white" />
+                    <Bot className="w-5 h-5 text-white" />
                   )}
                 </div>
                 <div
@@ -491,7 +438,7 @@ export const LiveChat = () => {
             {isLoading && (
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
-                  <Ghost className="w-5 h-5 text-white" />
+                  <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div className="bg-gray-100 rounded-2xl px-4 py-2">
                   <div className="animate-spin">
@@ -525,6 +472,17 @@ export const LiveChat = () => {
                 <span className="sr-only">Send</span>
               </button>
             </form>
+          </div>
+
+          {/* Email Contact Option */}
+          <div className="border-t p-4 bg-gray-50 rounded-b-lg">
+            <button
+              onClick={handleEmailClick}
+              className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+            >
+              <Mail size={16} />
+              Send Email to Ridoan
+            </button>
           </div>
         </div>
       )}

@@ -1,13 +1,12 @@
 
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
-import { cn } from '../lib/utils';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-scroll';
+import { Menu, X, Globe } from 'lucide-react';
 
 interface NavigationProps {
   navigationItems: Array<{
     id: string;
-    icon: JSX.Element;
+    icon: React.ReactNode;
     target?: string;
   }>;
   activeSection: string;
@@ -16,158 +15,126 @@ interface NavigationProps {
   setLanguage: (lang: 'en' | 'bn') => void;
 }
 
-const Navigation = ({
+const Navigation: React.FC<NavigationProps> = ({
   navigationItems,
   activeSection,
   scrollToSection,
   language,
   setLanguage,
-}: NavigationProps) => {
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { ref, inView } = useInView({
-    threshold: 0,
-    initialInView: true,
-  });
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  // Icon color mapping
-  const getIconColor = (id: string) => {
-    switch (id.toLowerCase()) {
-      case 'profile':
-        return 'text-indigo-600';
-      case 'education':
-        return 'text-blue-600';
-      case 'courses':
-        return 'text-emerald-600';
-      case 'experience':
-        return 'text-amber-600';
-      case 'certificates':
-        return 'text-red-600';
-      case 'skills':
-        return 'text-purple-600';
-      case 'family':
-        return 'text-pink-600';
-      case 'contact':
-        return 'text-cyan-600';
-      case 'share':
-        return 'text-teal-600';
-      default:
-        return 'text-gray-600';
+  const sectionLabels = {
+    en: {
+      profile: 'Profile',
+      education: 'Education',
+      courses: 'Courses',
+      experience: 'Experience',
+      certificates: 'Certificates',
+      skills: 'Skills',
+      family: 'Family',
+      contact: 'Contact',
+      'social-links': 'Social'
+    },
+    bn: {
+      profile: 'প্রোফাইল',
+      education: 'শিক্ষা',
+      courses: 'কোর্স',
+      experience: 'অভিজ্ঞতা',
+      certificates: 'সার্টিফিকেট',
+      skills: 'দক্ষতা',
+      family: 'পরিবার',
+      contact: 'যোগাযোগ',
+      'social-links': 'সামাজিক'
     }
   };
 
+  const handleNavClick = (item: any) => {
+    const targetSection = item.target || item.id;
+    scrollToSection(targetSection);
+    setIsMenuOpen(false);
+  };
+
   return (
-    <nav
-      ref={ref}
-      className={cn(
-        'fixed w-full z-50 transition-all duration-300',
-        isScrolled ? 'backdrop-blur-lg' : 'backdrop-blur-md'
-      )}
-      style={{
-        backgroundColor: isScrolled
-          ? 'rgba(255, 255, 255, 0.85)'
-          : 'rgba(255, 255, 255, 0.95)',
-        borderBottom: isScrolled 
-          ? '1px solid rgba(0, 0, 0, 0.08)'
-          : '1px solid rgba(0, 0, 0, 0.05)',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-colors"
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          >
-            <div className="transition-transform duration-200">
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </div>
-          </button>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+    }`}>
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo/Brand */}
+          <div className="flex-shrink-0">
+            <button
+              onClick={() => scrollToSection('profile')}
+              className="text-xl font-bold text-slate-800"
+            >
+              Ridoan
+            </button>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => scrollToSection(item.target || item.id)}
-                className={cn(
-                  'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300',
+                onClick={() => handleNavClick(item)}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                   activeSection === (item.target || item.id)
-                    ? 'bg-gray-100 text-gray-900 shadow-sm'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
-                )}
+                    ? 'bg-finance-purple text-white'
+                    : 'text-slate-600 hover:text-finance-purple hover:bg-slate-100'
+                }`}
               >
-                <div
-                  className={`w-5 h-5 ${getIconColor(item.id)} transition-transform duration-500 ${
-                    activeSection === (item.target || item.id) ? 'rotate-360' : 'rotate-0'
-                  }`}
-                >
-                  {item.icon}
-                </div>
-                <span className="font-medium text-sm">
-                  {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
-                </span>
+                {item.icon}
+                <span>{sectionLabels[language][item.id as keyof typeof sectionLabels['en']]}</span>
               </button>
             ))}
           </div>
 
-          {/* Language Toggle Button */}
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
-            className={cn(
-              'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300',
-              'bg-gradient-to-r from-indigo-500 to-purple-500 text-white',
-              'hover:from-indigo-400 hover:to-purple-400',
-              'focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-white'
-            )}
-          >
-            {language === 'en' ? 'বাংলা' : 'English'}
-          </button>
+          {/* Language Toggle & Mobile Menu Button */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
+              className="p-2 rounded-lg text-slate-600 hover:text-finance-purple hover:bg-slate-100 transition-colors"
+              title={language === 'en' ? 'Switch to Bangla' : 'Switch to English'}
+            >
+              <Globe size={20} />
+            </button>
+
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:text-finance-purple hover:bg-slate-100 transition-colors"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden overflow-hidden bg-white bg-opacity-90 backdrop-blur-xl border-t border-gray-100 mt-1 transition-all duration-300">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigationItems.map((item, index) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    scrollToSection(item.target || item.id);
-                    setIsMenuOpen(false);
-                  }}
-                  className={cn(
-                    'w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300',
-                    activeSection === (item.target || item.id)
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                  )}
-                >
-                  <div
-                    className={`w-6 h-6 ${getIconColor(item.id)} transition-transform duration-500 ${
-                      activeSection === (item.target || item.id) ? 'rotate-360' : 'rotate-0'
-                    }`}
-                  >
-                    {item.icon}
-                  </div>
-                  <span className="font-medium text-sm">
-                    {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
-                  </span>
-                </button>
-              ))}
-            </div>
+          <div className="md:hidden bg-white rounded-lg shadow-lg mt-2 py-2 border border-slate-200">
+            {navigationItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item)}
+                className={`w-full px-4 py-3 text-left transition-colors flex items-center gap-3 ${
+                  activeSection === (item.target || item.id)
+                    ? 'bg-finance-purple text-white'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                {item.icon}
+                <span>{sectionLabels[language][item.id as keyof typeof sectionLabels['en']]}</span>
+              </button>
+            ))}
           </div>
         )}
       </div>
