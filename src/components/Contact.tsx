@@ -1,5 +1,4 @@
 
-import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import { Mail, Phone, MapPin, Linkedin, ExternalLink, Send, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
@@ -117,10 +116,7 @@ const Contact = ({ language }: ContactProps) => {
 
   return (
     <Element name="contact">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+      <section
         className="bg-white p-4 sm:p-6 rounded-lg shadow-md mx-2 sm:mx-0"
         aria-labelledby="contact-heading"
       >
@@ -133,31 +129,19 @@ const Contact = ({ language }: ContactProps) => {
         </h2>
 
         {isSubmitted && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg flex items-center gap-2"
-          >
+          <div className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg flex items-center gap-2">
             <CheckCircle className="text-green-600" />
             {contactData.form.success[language]}
-          </motion.div>
+          </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Contact Information */}
-          <motion.div
-            initial={{ x: -20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 100 }}
-            className="space-y-4"
-          >
+          <div className="space-y-4">
             <div className="p-4 sm:p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
               {contactData.items.map((item, index) => (
-                <motion.div
+                <div
                   key={index}
-                  whileHover={{ x: 10 }}
                   className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4 last:mb-0"
                 >
                   <span>{item.icon}</span>
@@ -181,18 +165,13 @@ const Contact = ({ language }: ContactProps) => {
                       {item.content[language]}
                     </a>
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact Form */}
-          <motion.div
-            initial={{ x: 20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 100, delay: 0.2 }}
-          >
+          <div>
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div>
                 <label
@@ -249,19 +228,17 @@ const Contact = ({ language }: ContactProps) => {
                 />
               </div>
 
-              <motion.button
+              <button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 className="w-full bg-green-600 text-white py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <Send size={18} />
                 {contactData.form.submit[language]}
-              </motion.button>
+              </button>
             </form>
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
     </Element>
   );
 };

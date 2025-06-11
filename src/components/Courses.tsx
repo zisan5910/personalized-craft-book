@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 import { Element } from 'react-scroll';
 import {
   BookOpen,
@@ -149,12 +149,8 @@ const Courses = ({ language }: CoursesProps) => {
   ];
 
   const renderCourseItem = (course: any) => (
-    <motion.div
+    <div
       key={course.id}
-      initial={{ x: -20, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ type: 'spring', stiffness: 100 }}
       className="border-l-4 border-emerald-500 pl-4 py-4 hover:bg-emerald-50 rounded-r-lg transition-colors duration-200 group relative"
     >
       <div className="flex items-start gap-4">
@@ -209,16 +205,12 @@ const Courses = ({ language }: CoursesProps) => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   const renderOlympiadItem = (olympiad: any) => (
-    <motion.div
+    <div
       key={olympiad.id}
-      initial={{ x: -20, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ type: 'spring', stiffness: 100 }}
       className="border-l-4 border-amber-500 pl-4 py-4 hover:bg-amber-50 rounded-r-lg transition-colors duration-200 group relative"
     >
       <div className="flex items-start gap-4">
@@ -259,15 +251,12 @@ const Courses = ({ language }: CoursesProps) => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   return (
     <Element name="courses">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+      <section
         className="bg-white p-6 rounded-lg shadow-md"
         aria-labelledby="courses-heading"
       >
@@ -298,7 +287,7 @@ const Courses = ({ language }: CoursesProps) => {
             {professionalCourses.map(renderCourseItem)}
           </div>
         </div>
-      </motion.section>
+      </section>
     </Element>
   );
 };

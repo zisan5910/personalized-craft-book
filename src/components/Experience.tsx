@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 import { Element } from 'react-scroll';
 import { Briefcase, Target, HeartHandshake, ExternalLink, Facebook } from 'lucide-react';
 
@@ -182,10 +182,7 @@ const Experience = ({ language }: ExperienceProps) => {
 
   return (
     <Element name="experience">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+      <section
         className="bg-white p-6 rounded-lg shadow-md"
         aria-labelledby="experience-heading"
       >
@@ -199,12 +196,8 @@ const Experience = ({ language }: ExperienceProps) => {
 
         <div className="space-y-8">
           {experiences.map((experience) => (
-            <motion.div
+            <div
               key={experience.id}
-              initial={{ x: -20, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 100 }}
               className={`border-l-4 ${experience.borderColor} pl-4 py-4 ${experience.hoverBgColor} rounded-r-lg transition-colors duration-200 group`}
             >
               <div className="flex items-start gap-4">
@@ -268,10 +261,10 @@ const Experience = ({ language }: ExperienceProps) => {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.section>
+      </section>
     </Element>
   );
 };

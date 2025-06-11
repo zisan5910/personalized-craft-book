@@ -1,5 +1,4 @@
 
-import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import { GraduationCap, School, ExternalLink, BookOpen } from 'lucide-react';
 
@@ -77,12 +76,8 @@ const Education = ({ language }: EducationProps) => {
 
         <div className="space-y-6">
           {educationHistory.map((education) => (
-            <motion.div
+            <div
               key={education.id}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
               className="border-l-4 border-green-600 pl-4 py-4 hover:bg-green-50 rounded-r-lg transition-colors duration-200 group"
             >
               <div className="flex items-start gap-4">
@@ -115,7 +110,7 @@ const Education = ({ language }: EducationProps) => {
                   </ul>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
