@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import {
   Award,
@@ -82,10 +81,7 @@ const Skills = ({ language }: SkillsProps) => {
 
   return (
     <Element name="skills">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+      <section
         className="bg-white p-6 rounded-lg shadow-md"
         aria-labelledby="skills-heading"
       >
@@ -99,12 +95,7 @@ const Skills = ({ language }: SkillsProps) => {
 
         <div className="space-y-8">
           {/* Language Skills */}
-          <motion.div
-            initial={{ x: -20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 100 }}
-          >
+          <div>
             <h3 className="font-bold text-lg flex items-center gap-2 mb-4">
               <Languages
                 size={20}
@@ -144,7 +135,7 @@ const Skills = ({ language }: SkillsProps) => {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Other Skills Sections */}
           {[
@@ -152,17 +143,7 @@ const Skills = ({ language }: SkillsProps) => {
             skillsData.communication,
             skillsData.additional,
           ].map((section, sectionIndex) => (
-            <motion.div
-              key={sectionIndex}
-              initial={{ x: -20, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                type: 'spring',
-                stiffness: 100,
-                delay: sectionIndex * 0.1,
-              }}
-            >
+            <div key={sectionIndex}>
               <h3 className="font-bold text-lg flex items-center gap-2 mb-4">
                 {sectionIndex === 0 ? (
                   <Target
@@ -195,10 +176,10 @@ const Skills = ({ language }: SkillsProps) => {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.section>
+      </section>
     </Element>
   );
 };

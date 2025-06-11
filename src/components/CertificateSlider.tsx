@@ -1,6 +1,5 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Expand, Minimize, Loader2 } from 'lucide-react';
 
 interface Certificate {
@@ -192,34 +191,27 @@ const CertificateSlider = ({ certificates, language }: CertificateSliderProps) =
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            className={`w-full h-full flex items-center justify-center ${isFullscreen ? 'p-4 bg-black' : 'bg-transparent'}`}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            onClick={() => {
-              setShowTitle(true);
-              setTimeout(() => setShowTitle(false), 3000);
+        <div
+          className={`w-full h-full flex items-center justify-center ${isFullscreen ? 'p-4 bg-black' : 'bg-transparent'}`}
+          onClick={() => {
+            setShowTitle(true);
+            setTimeout(() => setShowTitle(false), 3000);
+          }}
+        >
+          <img
+            src={certificates[currentIndex].image}
+            alt={certificates[currentIndex].title[language]}
+            className="max-w-full max-h-full object-contain cursor-pointer"
+            style={{
+              background: 'transparent',
+              filter: isFullscreen ? 'none' : 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))'
             }}
-          >
-            <img
-              src={certificates[currentIndex].image}
-              alt={certificates[currentIndex].title[language]}
-              className="max-w-full max-h-full object-contain cursor-pointer"
-              style={{
-                background: 'transparent',
-                filter: isFullscreen ? 'none' : 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))'
-              }}
-              loading="lazy"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZWVlZWVlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiI+SW1hZ2UgTm90IExvYWRlZDwvdGV4dD48L3N2Zz4=';
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
+            loading="lazy"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZWVlZWVlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiI+SW1hZ2UgTm90IExvYWRlZDwvdGV4dD48L3N2Zz4=';
+            }}
+          />
+        </div>
 
         {/* Fullscreen Button */}
         <button
@@ -235,21 +227,13 @@ const CertificateSlider = ({ certificates, language }: CertificateSliderProps) =
         </button>
 
         {/* Title at Bottom Left */}
-        <AnimatePresence>
-          {showTitle && (
-            <motion.div
-              className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-left"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="inline-block px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 bg-black/70 text-white text-xs sm:text-sm md:text-base font-medium sm:font-semibold rounded-md sm:rounded-lg backdrop-blur-sm">
-                {certificates[currentIndex].title[language]}
-              </h3>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {showTitle && (
+          <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-left">
+            <h3 className="inline-block px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 bg-black/70 text-white text-xs sm:text-sm md:text-base font-medium sm:font-semibold rounded-md sm:rounded-lg backdrop-blur-sm">
+              {certificates[currentIndex].title[language]}
+            </h3>
+          </div>
+        )}
       </div>
 
       {/* Navigation Controls */}
