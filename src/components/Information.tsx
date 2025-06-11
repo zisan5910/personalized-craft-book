@@ -1,4 +1,5 @@
 
+import { motion } from 'framer-motion';
 import { Element } from 'react-scroll';
 import { Heart, ExternalLink } from 'lucide-react';
 
@@ -69,7 +70,10 @@ const Information = ({ language, age }: InformationProps) => {
 
   return (
     <Element name="family">
-      <section
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
         className="bg-white p-6 rounded-lg shadow-md"
         aria-labelledby="family-heading"
       >
@@ -83,7 +87,13 @@ const Information = ({ language, age }: InformationProps) => {
 
         <div className="space-y-8">
           {/* Family Information */}
-          <div className="border-l-4 border-red-500 pl-4 py-2 hover:bg-red-50 rounded-r-lg transition-colors duration-200">
+          <motion.div
+            initial={{ x: -20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 100 }}
+            className="border-l-4 border-red-500 pl-4 py-2 hover:bg-red-50 rounded-r-lg transition-colors duration-200"
+          >
             <h3 className="font-bold text-lg mb-4">
               {familyData.familyInfo.title[language]}
             </h3>
@@ -108,10 +118,16 @@ const Information = ({ language, age }: InformationProps) => {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Personal Information */}
-          <div className="border-l-4 border-green-500 pl-4 py-2 hover:bg-green-50 rounded-r-lg transition-colors duration-200">
+          <motion.div
+            initial={{ x: -20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 100, delay: 0.1 }}
+            className="border-l-4 border-green-500 pl-4 py-2 hover:bg-green-50 rounded-r-lg transition-colors duration-200"
+          >
             <h3 className="font-bold text-lg mb-4">
               {familyData.personalInfo.title[language]}
             </h3>
@@ -136,9 +152,9 @@ const Information = ({ language, age }: InformationProps) => {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </Element>
   );
 };

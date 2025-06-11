@@ -80,7 +80,7 @@ function App() {
 
       <ProfileSection
         language={language}
-        content={content}
+        content={content as any}
         scrollToSection={scrollToSection}
       />
 
