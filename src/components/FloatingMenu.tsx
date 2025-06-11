@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Send,
@@ -6,7 +5,6 @@ import {
   User,
   Loader2,
   X,
-  Mail,
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -334,19 +332,6 @@ export const LiveChat = () => {
     }
   };
 
-  const handleEmailClick = () => {
-    const isMobile =
-      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-    isMobile
-      ? (window.location.href = 'mailto:ridoan.zisan@gmail.com')
-      : window.open(
-          'https://mail.google.com/mail/?view=cm&fs=1&to=ridoan.zisan@gmail.com',
-          '_blank'
-        );
-  };
-
   return (
     <div
       className="fixed bottom-6 right-6 flex flex-col items-end gap-2 z-[9999]"
@@ -355,7 +340,7 @@ export const LiveChat = () => {
       {/* Main Robot Button */}
       <button
         onClick={() => setIsChatOpen(true)}
-        className="bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-blue-600 transition-colors"
+        className="bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-blue-600"
         title="Open Ghost AI"
       >
         <Bot size={24} />
@@ -372,7 +357,7 @@ export const LiveChat = () => {
             </div>
             <button
               onClick={() => setIsChatOpen(false)}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-white/80 hover:text-white"
               aria-label="Close chat"
             >
               <X size={20} />
@@ -466,23 +451,12 @@ export const LiveChat = () => {
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="bg-blue-500 text-white rounded-lg px-3 py-2 hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="bg-blue-500 text-white rounded-lg px-3 py-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 <span className="sr-only">Send</span>
               </button>
             </form>
-          </div>
-
-          {/* Email Contact Option */}
-          <div className="border-t p-4 bg-gray-50 rounded-b-lg">
-            <button
-              onClick={handleEmailClick}
-              className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
-            >
-              <Mail size={16} />
-              Send Email to Ridoan
-            </button>
           </div>
         </div>
       )}

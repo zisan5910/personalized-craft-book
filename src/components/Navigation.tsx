@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-scroll';
 import { Menu, X, Globe } from 'lucide-react';
 
 interface NavigationProps {
@@ -66,7 +65,7 @@ const Navigation: React.FC<NavigationProps> = ({
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 ${
       isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
       <div className="container mx-auto px-4">
@@ -77,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({
               onClick={() => scrollToSection('profile')}
               className="text-xl font-bold text-slate-800"
             >
-              Ridoan
+              Portfolio
             </button>
           </div>
 
@@ -87,7 +86,7 @@ const Navigation: React.FC<NavigationProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   activeSection === (item.target || item.id)
                     ? 'bg-finance-purple text-white'
                     : 'text-slate-600 hover:text-finance-purple hover:bg-slate-100'
@@ -103,7 +102,7 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
-              className="p-2 rounded-lg text-slate-600 hover:text-finance-purple hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-lg text-slate-600 hover:text-finance-purple hover:bg-slate-100"
               title={language === 'en' ? 'Switch to Bangla' : 'Switch to English'}
             >
               <Globe size={20} />
@@ -111,7 +110,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-600 hover:text-finance-purple hover:bg-slate-100 transition-colors"
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:text-finance-purple hover:bg-slate-100"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -125,7 +124,7 @@ const Navigation: React.FC<NavigationProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item)}
-                className={`w-full px-4 py-3 text-left transition-colors flex items-center gap-3 ${
+                className={`w-full px-4 py-3 text-left flex items-center gap-3 ${
                   activeSection === (item.target || item.id)
                     ? 'bg-finance-purple text-white'
                     : 'text-slate-600 hover:bg-slate-100'
